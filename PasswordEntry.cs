@@ -52,6 +52,12 @@ namespace ipfs_pswmgr
             }
         }
 
+        public string Password
+        {
+            get { return m_Password.ConvertToUnsecureString(); }
+            set { m_Password = value.ConvertToSecureString(); }
+        }
+
         [JsonProperty(PropertyName = "Username")]
         public string EncryptedUsername
         {
@@ -63,6 +69,12 @@ namespace ipfs_pswmgr
             {
                 StoreProperty(out m_Username, value);
             }
+        }
+
+        public string Username
+        {
+            get { return m_Username.ConvertToUnsecureString(); }
+            set { m_Username = value.ConvertToSecureString(); }
         }
 
         #endregion

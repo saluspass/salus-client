@@ -6,15 +6,15 @@ namespace ipfs_pswmgr
 {
     internal static class SecureStringUtilities
     {
-        public static string ConvertToUnsecureString(this SecureString securePassword)
+        public static string ConvertToUnsecureString(this SecureString secureString)
         {
-            if (securePassword == null)
-                throw new ArgumentNullException("securePassword");
+            if (secureString == null)
+                throw new ArgumentNullException("secureString");
 
             IntPtr unmanagedString = IntPtr.Zero;
             try
             {
-                unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(securePassword);
+                unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(secureString);
                 return Marshal.PtrToStringUni(unmanagedString);
             }
             finally
@@ -23,6 +23,18 @@ namespace ipfs_pswmgr
             }
         }
 
-        public static string
+        public static SecureString ConvertToSecureString(this string unsecureString)
+        {
+            if (unsecureString == null)
+                throw new ArgumentNullException("unsecureString");
+
+            SecureString ss = new SecureString();
+            foreach(char c in unsecureString)
+            {
+                ss.AppendChar(c);
+            }
+
+            return ss;
+        }
     }
 }
