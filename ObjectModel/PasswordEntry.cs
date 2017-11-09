@@ -1,14 +1,21 @@
-﻿using Newtonsoft.Json;
+﻿using HtmlAgilityPack;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
+using System.Net;
+using System.Runtime.CompilerServices;
 using System.Security;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace ipfs_pswmgr
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    public class PasswordEntry
+    public class PasswordEntry : INotifyPropertyChanged
     {
         #region Nested
 
@@ -73,11 +80,12 @@ namespace ipfs_pswmgr
 
         #region Variables
 
-        SecureString m_Name;
-        SecureString m_Password;
-        SecureString m_Username;
-        SecureString m_Website;
-        List<Field> m_Fields;
+        private SecureString m_Name;
+        private SecureString m_Password;
+        private SecureString m_Username;
+        private SecureString m_Website;
+        private List<Field> m_Fields;
+        private bool _SearchedForImage;
 
         #endregion
 
@@ -179,6 +187,12 @@ namespace ipfs_pswmgr
             get { return m_Fields; }
             set { m_Fields = value; }
         }
+
+        public BitmapImage Icon
+        {
+            get { return GetIcon(); }
+        }
+
         #endregion
 
         #region Methods
@@ -235,6 +249,97 @@ namespace ipfs_pswmgr
         public override int GetHashCode()
         {
             return Name.GetHashCode();
+        }
+
+        private BitmapImage GetIcon()
+        {
+            if (!_SearchedForImage)
+            {
+                string file = Path.Combine(Path.GetTempPath(), "soteriapass", Website.Replace(':', '_').Replace('.', '_').Replace('/', '_'), "favicon.ico");
+                string fileAlt = Path.ChangeExtension(file, ".sec.ico");
+                Directory.CreateDirectory(Directory.GetParent(file).FullName);
+                if (File.Exists(file))
+                {
+                    BitmapImage returnValue = ExceptionUtilities.TryAssignCatchIgnore(delegate { return new BitmapImage(new Uri(file, UriKind.RelativeOrAbsolute)); }, null);
+                    if (returnValue != null)
+                        return returnValue;
+                }
+                if (File.Exists(fileAlt))
+                {
+
+                }
+                if (!_SearchedForImage)
+                {
+                    _SearchedForImage = true;
+                    Task.Run(delegate
+                    {
+                        DownloadFile(Website, file);
+                        if (ExceptionUtilities.TryAssignCatchIgnore(delegate { return new BitmapImage(new Uri(file, UriKind.RelativeOrAbsolute)); }, null) != null)
+                        {
+                            OnPropertyChanged(nameof(Icon));
+                            return;
+                        }
+
+                        DownloadFileAlternative(Website, fileAlt);
+                        if (ExceptionUtilities.TryAssignCatchIgnore(delegate { return new BitmapImage(new Uri(fileAlt, UriKind.RelativeOrAbsolute)); }, null) != null)
+                        {
+                            OnPropertyChanged(nameof(Icon));
+                            return;
+                        }
+                    });
+                }
+            }
+            return new BitmapImage(new Uri("/PasswordManager;component/Resources/shield.ico", UriKind.RelativeOrAbsolute));
+        }
+
+        private void DownloadFile(string value, string file)
+        {
+            using (WebClient client = new WebClient())
+            {
+                ExceptionUtilities.TryCatchIgnore(() => client.DownloadFile(Path.Combine(value, "favicon.ico").Replace('\\', '/'), file));
+            }
+        }
+
+        private void DownloadFileAlternative(string value, string file)
+        {
+            HtmlWeb web = new HtmlWeb();
+            HtmlDocument doc = ExceptionUtilities.TryAssignCatchIgnore(delegate { return web.Load(value); }, null);
+
+            if (doc == null)
+                return;
+
+            foreach (var node in doc.DocumentNode.Descendants("link"))
+            {
+                var relValue = node.GetAttributeValue("rel", null);
+                if (relValue?.ToLower() == "shortcut icon")
+                {
+                    using (WebClient client = new WebClient())
+                    {
+                        ExceptionUtilities.TryCatchIgnore(() => client.DownloadFile(node.GetAttributeValue("href", null), file));
+                    }
+                    continue;
+                }
+
+                var typeValue = node.GetAttributeValue("image/x-icon", null);
+                if (typeValue != null)
+                {
+                    using (WebClient client = new WebClient())
+                    {
+                        ExceptionUtilities.TryCatchIgnore(() => client.DownloadFile(node.GetAttributeValue("type", null), file));
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region Events
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

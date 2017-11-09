@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlAgilityPack, Version=1.6.3.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.6.3\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -58,14 +61,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ObjectModel\EncryptionKey.cs" />
-    <Compile Include="PasswordEntry.cs" />
+    <Compile Include="ObjectModel\PasswordEntry.cs" />
     <Compile Include="UI\Main\MainModel.cs" />
     <Compile Include="UI\Main\MainViewModel.cs" />
     <Compile Include="Utilities\Base32.cs" />
     <Compile Include="Utilities\DelegateCommand.cs" />
+    <Compile Include="Utilities\ExceptionUtilities.cs" />
     <Compile Include="Utilities\FileSystemConstants.cs" />
     <Compile Include="Utilities\PemKeyUtils.cs" />
     <Compile Include="Utilities\SecureStringUtilities.cs" />
+    <Compile Include="Utilities\StringToHiddenStringConverter.cs" />
     <Compile Include="Utilities\Test.cs" />
     <Page Include="UI\FirstRun\FirstRunView.xaml">
       <SubType>Designer</SubType>
