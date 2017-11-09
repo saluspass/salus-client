@@ -5,6 +5,9 @@ Zero knowldge
 
 - [Security Issues](#security-issues)
 - [Dependencies](#dependencies)
+- [Cryptography Notice](#cryptography-notice)
+- [Building From Source](#building-from-source)
+- [License](#license)
 
 ## Security Issues
 
@@ -18,19 +21,16 @@ If you find a vulnerability that may affect live deployments please report it on
 * [HTML Agility Pack](https://github.com/zzzprojects/html-agility-pack)
 * [Extended WPF Toolkit](https://github.com/xceedsoftware/wpftoolkit)
 
-## Important notice
-Currently the storage of passwords is done in plain text. This means that the current implementation is __NOT SECURE__
-
 ## Cryptography Notice
 
 This distribution includes cryptographic software. The country in which you currently reside may have restrictions on the import, possession, use, and/or re-export to another country, of encryption software. BEFORE using any encryption software, please check your country's laws, regulations and policies concerning the import, possession, or use, and re-export of encryption software, to see if this is permitted. See [http://www.wassenaar.org/](http://www.wassenaar.org/) for more information.
 
-## Building
+## Building From Source
 
 Tested with Visual Studio 2017. Open ipfs-pswmgr.sln and build. Nuget packages should be restored automatically
 
 ## License
-The main license for this project is the GPLv3 - [https://github.com/devgeeks/Encryptr/blob/master/LICENSE](https://github.com/devgeeks/Encryptr/blob/master/LICENSE)
+The main license for this project is the GPLv3 - [LICENSE](https://github.com/viperman1271/ipfs-pswmgr/blob/master/LICENSE)
 
 Dependencies have their own licenses, which can be viewed at the following;
 * [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md)
