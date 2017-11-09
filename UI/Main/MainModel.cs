@@ -15,6 +15,15 @@ namespace ipfs_pswmgr
             m_Entries = new List<PasswordEntry>();
         }
 
+        #region Properties
+
+        public IReadOnlyCollection<PasswordEntry> Entries
+        {
+            get { return m_Entries; }
+        }
+
+        #endregion
+
         #region Methods
 
         public void AddEntry(PasswordEntry entry)
@@ -22,7 +31,7 @@ namespace ipfs_pswmgr
             int index = m_Entries.IndexOf(entry);
             if(index != -1)
             {
-
+                m_Entries[index] = entry;
             }
             else
             {

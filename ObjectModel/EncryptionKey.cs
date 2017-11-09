@@ -95,26 +95,6 @@ namespace ipfs_pswmgr
             return Encoding.UTF8.GetString(byteArray);
         }
 
-        /*public static byte[] RSAEncrypt(byte[] plaintext, string destKey)
-        {
-            byte[] encryptedData;
-            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-            rsa.FromXmlString(destKey);
-            encryptedData = rsa.Encrypt(plaintext, true);
-            rsa.Dispose();
-            return encryptedData;
-        }
-
-        public static byte[] RSADecrypt(byte[] ciphertext, string srcKey)
-        {
-            byte[] decryptedData;
-            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-            rsa.FromXmlString(srcKey);
-            decryptedData = rsa.Decrypt(ciphertext, true);
-            rsa.Dispose();
-            return decryptedData;
-        }*/
-
         private static void ExportPublicKey(RSACryptoServiceProvider csp, TextWriter outputStream)
         {
             var parameters = csp.ExportParameters(false);
