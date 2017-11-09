@@ -10,21 +10,14 @@
     "url": "mikefilion.com"
   },
   "keywords": [
-    "npm",
-    "registry",
-    "package",
-    "pkg",
-    "package.json",
-    "json",
-    "module",
-    "scope",
-    "scoped"
+    "ipfs",
+    "password",
+    "manager",
+    "package.json"
   ],
   "dependencies": {
-    "JamesNK/Newtonsoft.Json": "^10.0.3",
-    "zzzprojects/html-agility-pack": "^1.6.3",
-    "xceedsoftware/wpftoolkit": "^3.2.0"
+    "Newtonsoft.Json": "JamesNK/Newtonsoft.Json",
+    "html-agility-pack": "zzzprojects/html-agility-pack",
+    "wpftoolkit": "xceedsoftware/wpftoolkit"
   },
-  "devDependencies": {
-  }
 }
