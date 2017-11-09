@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Get metadata of a package from the npm registry",
   "license": "MIT",
-  "repository": "sindresorhus/package-json",
+  "repository": "viperman1271/ipfs-pswmgr",
   "author": {
-    "name": "Sindre Sorhus",
-    "email": "sindresorhus@gmail.com",
-    "url": "sindresorhus.com"
+    "name": "Michael Filion",
+    "email": "mfilion@mikefilion.com",
+    "url": "mikefilion.com"
   },
   "engines": {
     "node": ">=4"
@@ -30,7 +30,7 @@
     "scoped"
   ],
   "dependencies": {
-    "Newtonsoft.Json": "^10.0.3"
+    "JamesNK/Newtonsoft.Json": "^10.0.3"
   },
   "devDependencies": {
   }
