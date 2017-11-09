@@ -1,0 +1,5 @@
+{
+	"dependencies": {
+		"Newtonsoft.Json": "JamesNK/Newtonsoft.Json"
+	}
+}
