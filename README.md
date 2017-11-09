@@ -20,6 +20,7 @@ If you find a vulnerability that may affect live deployments please report it on
 * [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
 * [HTML Agility Pack](https://github.com/zzzprojects/html-agility-pack)
 * [Extended WPF Toolkit](https://github.com/xceedsoftware/wpftoolkit)
+* [Semver](https://github.com/maxhauser/semver)
 
 ## Cryptography Notice
 
@@ -36,3 +37,4 @@ Dependencies have their own licenses, which can be viewed at the following;
 * [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md)
 * [HTML Agility Pack](https://github.com/zzzprojects/html-agility-pack/blob/master/LICENSE)
 * [Extended WPF Toolkit](https://github.com/xceedsoftware/wpftoolkit/blob/master/license.md)
+* [Semver](https://github.com/maxhauser/semver/blob/master/License.txt)
