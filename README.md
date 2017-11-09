@@ -1,5 +1,5 @@
 # ipfs-pswmgr
-Zero knowldge 
+Decentralized zero knowldge password storage application using RSA 2048 encryption to encrypt and store password details
 
 ## Table of Contents
 
