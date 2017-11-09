@@ -143,7 +143,7 @@ namespace ipfs_pswmgr
                 {
                     var val = PasswordEntry.Load(file);
                     _Model.AddEntry(val);
-                    App.Instance.Dispatcher.Invoke(() => _Passwords.Add(val));
+                    ExceptionUtilities.TryCatchIgnore(() => App.Instance.Dispatcher.Invoke(() => _Passwords.Add(val)));
                 });
             });
         }
