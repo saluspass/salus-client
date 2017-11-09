@@ -219,6 +219,17 @@ namespace ipfs_pswmgr
             return entry;
         }
 
+        internal void Delete()
+        {
+            string filename = Path.ChangeExtension(Base32.ToBase32String(SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(Name))), ".json");
+            string fullFilepath = Path.Combine(FileSystemConstants.PswmgrDataFolder, filename);
+
+            if (File.Exists(fullFilepath))
+            {
+                File.Delete(fullFilepath);
+            }
+        }
+
         private static string GetProperty(SecureString ss)
         {
             using (EncryptionKey key = EncryptionKey.Load())
