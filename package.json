@@ -1,7 +1,7 @@
 {
-  "name": "ipfs-pswmgr",
+  "name": "package-json",
   "version": "1.0.0",
-  "description": "Distributed password manager with RSA encryption",
+  "description": "Get metadata of a package from the npm registry",
   "license": "MIT",
   "repository": "viperman1271/ipfs-pswmgr",
   "author": {
@@ -10,14 +10,21 @@
     "url": "mikefilion.com"
   },
   "keywords": [
-    "ipfs",
-    "password",
-    "manager",
-    "package.json"
+    "npm",
+    "registry",
+    "package",
+    "pkg",
+    "package.json",
+    "json",
+    "module",
+    "scope",
+    "scoped"
   ],
   "dependencies": {
     "JamesNK/Newtonsoft.Json": "^10.0.3",
     "zzzprojects/html-agility-pack", "^1.6.3",
     "xceedsoftware/wpftoolkit", "^3.2.0"
   },
+  "devDependencies": {
+  }
 }
