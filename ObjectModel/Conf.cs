@@ -5,7 +5,7 @@ using System.IO;
 namespace ipfs_pswmgr
 {
     [JsonObject(MemberSerialization.OptIn)]
-    class Conf
+    internal class Conf
     {
         #region Variables
 
