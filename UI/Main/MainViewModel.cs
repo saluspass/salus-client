@@ -17,18 +17,20 @@ namespace ipfs_pswmgr
         {
             m_Model = new MainModel();
 
-            List<PasswordEntry> entries = new List<PasswordEntry>();
-            foreach(string file in Directory.GetFiles(@"C:\Users\mfilion\.ipfs-pswmgr", "*.json"))
+            foreach(string file in Directory.GetFiles(FileSystemConstants.PswmgrDataFolder, "*.json"))
             {
                 var val =  PasswordEntry.Load(file);
-                entries.Add(val);
+                m_Model.AddEntry(val);
             }
 
             PasswordEntry entry = new PasswordEntry();
             entry.Name = "TEST";
             entry.Password = "TEST123";
             entry.Username = "test@test.com";
-            entry.Save();
+            entry.Fields.Add(new PasswordEntry.Field("FieldName", "FieldValue"));
+
+            m_Model.AddEntry(entry);
+            m_Model.SaveEntries();
         }
 
         #endregion

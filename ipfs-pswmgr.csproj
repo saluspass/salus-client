@@ -63,6 +63,7 @@
     <Compile Include="UI\Main\MainViewModel.cs" />
     <Compile Include="Utilities\Base32.cs" />
     <Compile Include="Utilities\DelegateCommand.cs" />
+    <Compile Include="Utilities\FileSystemConstants.cs" />
     <Compile Include="Utilities\PemKeyUtils.cs" />
     <Compile Include="Utilities\SecureStringUtilities.cs" />
     <Compile Include="Utilities\Test.cs" />

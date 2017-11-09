@@ -7,14 +7,6 @@ namespace ipfs_pswmgr
 {
     internal class FirstRunViewModel
     {
-        #region Constants
-
-        public static readonly string UserHomeFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        public static readonly string IpfsFolder = Path.Combine(UserHomeFolder, ".ipfs");
-        public static readonly string PswmgrFolder = Path.Combine(UserHomeFolder, ".ipfs-pswmgr");
-
-        #endregion
-
         #region Properties
 
         public ICommand NewAccount
@@ -33,10 +25,10 @@ namespace ipfs_pswmgr
 
         internal static bool WasCompleted()
         {
-            if (!Directory.Exists(IpfsFolder))
+            if (!Directory.Exists(FileSystemConstants.IpfsConfigFolder))
                 return false;
 
-            if (!Directory.Exists(PswmgrFolder))
+            if (!Directory.Exists(FileSystemConstants.PswmgrConfigFolder))
                 return false;
 
             EncryptionKey key = EncryptionKey.Load();

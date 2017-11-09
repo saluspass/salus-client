@@ -55,7 +55,7 @@ namespace ipfs_pswmgr
             {
                 EncryptionKey key = new EncryptionKey
                 {
-                    m_rsa = PemKeyUtils.GetRSAProviderFromPemFile(Path.Combine(FirstRunViewModel.PswmgrFolder, "private.pem"))
+                    m_rsa = PemKeyUtils.GetRSAProviderFromPemFile(Path.Combine(FileSystemConstants.PswmgrConfigFolder, "private.pem"))
                 };
                 return key;
             }
@@ -68,15 +68,15 @@ namespace ipfs_pswmgr
 
         public void Export()
         {
-            if (!Directory.Exists(FirstRunViewModel.PswmgrFolder))
-                Directory.CreateDirectory(FirstRunViewModel.PswmgrFolder);
+            if (!Directory.Exists(FileSystemConstants.PswmgrConfigFolder))
+                Directory.CreateDirectory(FileSystemConstants.PswmgrConfigFolder);
 
-            using (StreamWriter writer = new StreamWriter(Path.Combine(FirstRunViewModel.PswmgrFolder, "private.pem")))
+            using (StreamWriter writer = new StreamWriter(Path.Combine(FileSystemConstants.PswmgrConfigFolder, "private.pem")))
             {
                 ExportPrivateKey(m_rsa, writer);
             }
 
-            using (StreamWriter writer = new StreamWriter(Path.Combine(FirstRunViewModel.PswmgrFolder, "public.pem")))
+            using (StreamWriter writer = new StreamWriter(Path.Combine(FileSystemConstants.PswmgrConfigFolder, "public.pem")))
             {
                 ExportPublicKey(m_rsa, writer);
             }
