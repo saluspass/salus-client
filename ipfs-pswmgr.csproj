@@ -60,12 +60,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\AbstractCommand.cs" />
+    <Compile Include="Commands\Exit.cs" />
+    <Compile Include="Commands\NewPassword.cs" />
+    <Compile Include="Commands\ShowOptions.cs" />
+    <Compile Include="ObjectModel\Conf.cs" />
     <Compile Include="ObjectModel\EncryptionKey.cs" />
     <Compile Include="ObjectModel\PasswordEntry.cs" />
     <Compile Include="UI\Main\MainModel.cs" />
     <Compile Include="UI\Main\MainViewModel.cs" />
+    <Compile Include="UI\New Password\NewPasswordView.xaml.cs">
+      <DependentUpon>NewPasswordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\New Password\NewPasswordViewModel.cs" />
+    <Compile Include="UI\OptionsView\OptionsView.xaml.cs">
+      <DependentUpon>OptionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\OptionsView\OptionsViewModel.cs" />
     <Compile Include="Utilities\Base32.cs" />
-    <Compile Include="Utilities\DelegateCommand.cs" />
+    <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Utilities\ExceptionUtilities.cs" />
     <Compile Include="Utilities\Constants\FileSystemConstants.cs" />
     <Compile Include="Utilities\PemKeyUtils.cs" />
@@ -91,6 +104,14 @@
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\New Password\NewPasswordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\OptionsView\OptionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
