@@ -1,6 +1,6 @@
 {
   "name": "package-json",
-  "version": "4.0.1",
+  "version": "1.0.0",
   "description": "Get metadata of a package from the npm registry",
   "license": "MIT",
   "repository": "sindresorhus/package-json",
@@ -30,14 +30,8 @@
     "scoped"
   ],
   "dependencies": {
-    "got": "^6.7.1",
-    "registry-auth-token": "^3.0.1",
-    "registry-url": "^3.0.3",
-    "semver": "^5.1.0"
+    "Newtonsoft.Json": "^10.0.3"
   },
   "devDependencies": {
-    "ava": "*",
-    "mock-private-registry": "^1.1.0",
-    "xo": "*"
   }
 }
