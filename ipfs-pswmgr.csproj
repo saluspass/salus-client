@@ -67,10 +67,10 @@
     <Compile Include="Utilities\Base32.cs" />
     <Compile Include="Utilities\DelegateCommand.cs" />
     <Compile Include="Utilities\ExceptionUtilities.cs" />
-    <Compile Include="Utilities\FileSystemConstants.cs" />
+    <Compile Include="Utilities\Constants\FileSystemConstants.cs" />
     <Compile Include="Utilities\PemKeyUtils.cs" />
-    <Compile Include="Utilities\SecureStringUtilities.cs" />
-    <Compile Include="Utilities\StringToHiddenStringConverter.cs" />
+    <Compile Include="Utilities\Extensions\SecureStringExtensions.cs" />
+    <Compile Include="UI\Converters\StringToHiddenStringConverter.cs" />
     <Page Include="UI\FirstRun\FirstRunView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

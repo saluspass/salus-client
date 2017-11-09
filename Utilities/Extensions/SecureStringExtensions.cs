@@ -4,7 +4,7 @@ using System.Security;
 
 namespace ipfs_pswmgr
 {
-    internal static class SecureStringUtilities
+    internal static class SecureStringExtensions
     {
         public static string ConvertToUnsecureString(this SecureString secureString)
         {
