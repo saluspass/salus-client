@@ -2,9 +2,10 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:ipfs_pswmgr"
-        Title="ipfs-pswmgr" 
+        Title="Password Manager" 
         Height="350" 
         Width="525"
+        Icon="/ipfs-pswmgr;component/Resources/PasswordManagerIcon.ico" 
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>

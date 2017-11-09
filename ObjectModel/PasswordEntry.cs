@@ -300,7 +300,7 @@ namespace ipfs_pswmgr
                     });
                 }
             }
-            return new BitmapImage(new Uri("/PasswordManager;component/Resources/shield.ico", UriKind.RelativeOrAbsolute));
+            return new BitmapImage(new Uri("/ipfs-pswmgr;component/Resources/PasswordManagerIcon.ico", UriKind.RelativeOrAbsolute));
         }
 
         private void DownloadFile(string value, string file)
