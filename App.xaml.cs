@@ -44,6 +44,8 @@ namespace ipfs_pswmgr
 
         private void OnApplicationStartup()
         {
+            AutoUpdater.Launch();
+
             MainWindow mainWindow = new MainWindow();
 
             if (!FirstRunViewModel.WasCompleted())

@@ -43,8 +43,12 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Semver, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Semver.2.0.4\lib\net452\Semver.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -88,6 +92,12 @@
     <Compile Include="ObjectModel\Conf.cs" />
     <Compile Include="ObjectModel\EncryptionKey.cs" />
     <Compile Include="ObjectModel\PasswordEntry.cs" />
+    <Compile Include="UI\Updating\UpdateViewModel.cs" />
+    <Compile Include="UI\Updating\UpdateView.xaml.cs">
+      <DependentUpon>UpdateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Updater\AutoUpdater.cs" />
+    <Compile Include="Updater\ObjectModel\Release.cs" />
     <Compile Include="UI\Main\MainModel.cs" />
     <Compile Include="UI\Main\MainViewModel.cs" />
     <Compile Include="UI\New Password\NewPasswordView.xaml.cs">
@@ -100,11 +110,13 @@
     <Compile Include="UI\OptionsView\OptionsViewModel.cs" />
     <Compile Include="Utilities\Base32.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Utilities\Constants\ReleasesConstants.cs" />
     <Compile Include="Utilities\ExceptionUtilities.cs" />
     <Compile Include="Utilities\Constants\FileSystemConstants.cs" />
     <Compile Include="Utilities\PemKeyUtils.cs" />
     <Compile Include="Utilities\Extensions\SecureStringExtensions.cs" />
     <Compile Include="UI\Converters\StringToHiddenStringConverter.cs" />
+    <Compile Include="Web\CustomizedWebClient.cs" />
     <Page Include="UI\FirstRun\FirstRunView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -130,6 +142,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\OptionsView\OptionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Updating\UpdateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -165,5 +181,6 @@
     <Resource Include="Resources\PasswordManagerIcon.ico" />
     <Resource Include="Resources\PasswordManagerIcon.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
