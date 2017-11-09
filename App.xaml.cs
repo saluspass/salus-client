@@ -9,7 +9,8 @@ namespace ipfs_pswmgr
     {
         #region Variables
 
-        private static readonly App _Instance;
+        private static App _Instance;
+        private Conf _Conf;
 
         #endregion
 
@@ -22,11 +23,37 @@ namespace ipfs_pswmgr
 
         #endregion
 
+        #region Properties
+
+        public static App Instance
+        {
+            get { return _Instance; }
+        }
+
+        internal Conf Conf
+        {
+            get { return _Conf; }
+        }
+
+        #endregion
+
         #region Methods
 
-        private OnApplicationStartup()
+        private void OnApplicationStartup()
         {
+            MainWindow mainWindow = new MainWindow();
 
+            if (!FirstRunViewModel.WasCompleted())
+            {
+                FirstRunView dialog = new FirstRunView();
+                if (dialog.ShowDialog() != true)
+                {
+                    mainWindow = null;
+                    Shutdown();
+                }
+            }
+
+            mainWindow?.Show();
         }
 
         #endregion
@@ -35,19 +62,7 @@ namespace ipfs_pswmgr
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
-
-            if (!FirstRunViewModel.WasCompleted())
-            {
-                FirstRunView dialog = new FirstRunView();
-                if(dialog.ShowDialog() != true)
-                {
-                    mainWindow = null;
-                    Shutdown();
-                }
-            }
-
-            mainWindow?.Show();
+            OnApplicationStartup();
         }
 
         #endregion
