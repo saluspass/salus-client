@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 
 namespace ipfs_pswmgr
 {
@@ -19,6 +20,8 @@ namespace ipfs_pswmgr
         public App()
         {
             _Instance = this;
+
+            _Conf = Conf.Load(Path.Combine(FileSystemConstants.PswmgrConfigFolder, "conf.json"));
         }
 
         #endregion

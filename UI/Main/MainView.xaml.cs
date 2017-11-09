@@ -17,7 +17,7 @@ namespace ipfs_pswmgr
 
         public MainWindow()
         {
-            m_ViewModel = new MainViewModel();
+            m_ViewModel = new MainViewModel(this);
             DataContext = m_ViewModel;
 
             InitializeComponent();
