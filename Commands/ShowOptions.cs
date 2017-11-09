@@ -29,10 +29,7 @@ namespace ipfs_pswmgr
             {
                 Owner = _ParentView
             };
-            if (view.ShowDialog() == true && App.Instance.Conf.IsValid())
-            {
-                _ViewModel.Authenticate();
-            }
+            view.ShowDialog();
         }
 
         #endregion
