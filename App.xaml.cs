@@ -21,7 +21,7 @@ namespace ipfs_pswmgr
         {
             _Instance = this;
 
-            _Conf = Conf.Load(Path.Combine(FileSystemConstants.PswmgrConfigFolder, "conf.json"));
+            _Conf = Conf.Load(FileSystemConstants.ConfFilePath);
         }
 
         #endregion

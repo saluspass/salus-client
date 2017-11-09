@@ -36,7 +36,7 @@ namespace ipfs_pswmgr
 
         ~Conf()
         {
-            Save("pswmgr.conf");
+            Save(FileSystemConstants.ConfFilePath);
         }
 
         #endregion

@@ -24,7 +24,7 @@ namespace ipfs_pswmgr
 
         public ICommand OKCommand
         {
-            get { return new DelegateCommand(delegate { Model.Save("pswmgr.conf"); _View.DialogResult = true; _View.Close(); }); }
+            get { return new DelegateCommand(delegate { Model.Save(FileSystemConstants.ConfFilePath); _View.DialogResult = true; _View.Close(); }); }
         }
 
         public ICommand CancelCommand

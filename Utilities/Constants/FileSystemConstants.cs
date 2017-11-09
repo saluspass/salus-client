@@ -11,5 +11,7 @@ namespace ipfs_pswmgr
 
         public static readonly string AppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         public static readonly string PswmgrDataFolder = Path.Combine(AppDataFolder, "ipfs-pswmgr");
+
+        public static readonly string ConfFilePath = Path.Combine(FileSystemConstants.PswmgrConfigFolder, "conf.json");
     }
 }
