@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -135,12 +136,16 @@ namespace ipfs_pswmgr
         {
             _Passwords.Clear();
 
-            foreach (string file in Directory.GetFiles(FileSystemConstants.PswmgrDataFolder, "*.json"))
+            var files = Directory.GetFiles(FileSystemConstants.PswmgrDataFolder, "*.json");
+            Parallel.ForEach(files, delegate(string file)
             {
-                var val = PasswordEntry.Load(file);
-                _Model.AddEntry(val);
-                _Passwords.Add(val);
-            }
+                Task.Run(() =>
+                {
+                    var val = PasswordEntry.Load(file);
+                    _Model.AddEntry(val);
+                    App.Instance.Dispatcher.Invoke(() => _Passwords.Add(val));
+                });
+            });
         }
 
         private void Search(string searchTerm)
