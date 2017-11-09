@@ -9,9 +9,6 @@ namespace ipfs_pswmgr
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-
-            Blah.Entry();
-
             MainWindow mainWindow = new MainWindow();
 
             if (!FirstRunViewModel.WasCompleted())

@@ -71,7 +71,6 @@
     <Compile Include="Utilities\PemKeyUtils.cs" />
     <Compile Include="Utilities\SecureStringUtilities.cs" />
     <Compile Include="Utilities\StringToHiddenStringConverter.cs" />
-    <Compile Include="Utilities\Test.cs" />
     <Page Include="UI\FirstRun\FirstRunView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
