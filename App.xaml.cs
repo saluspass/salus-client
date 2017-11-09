@@ -7,6 +7,32 @@ namespace ipfs_pswmgr
     /// </summary>
     public partial class App : Application
     {
+        #region Variables
+
+        private static readonly App _Instance;
+
+        #endregion
+
+        #region Ctor
+
+        public App()
+        {
+            _Instance = this;
+        }
+
+        #endregion
+
+        #region Methods
+
+        private OnApplicationStartup()
+        {
+
+        }
+
+        #endregion
+
+        #region Event Handlers
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
@@ -23,5 +49,7 @@ namespace ipfs_pswmgr
 
             mainWindow?.Show();
         }
+
+        #endregion
     }
 }
