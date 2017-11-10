@@ -31,7 +31,7 @@ This distribution includes cryptographic software. The country in which you curr
 Tested with Visual Studio 2017. Open ipfs-pswmgr.sln and build. Nuget packages should be restored automatically
 
 ## License
-The main license for this project is the GPLv3 - [LICENSE](https://github.com/viperman1271/ipfs-pswmgr/blob/master/LICENSE)
+The main license for this project is the MIT License - [LICENSE](https://github.com/viperman1271/ipfs-pswmgr/blob/master/LICENSE)
 
 Dependencies have their own licenses, which can be viewed at the following;
 * [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md)
