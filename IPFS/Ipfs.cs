@@ -36,13 +36,7 @@ namespace ipfs_pswmgr
             });
         }
 
-        public static void Test()
-        {
-            //Add(@"X:\IPFS\test.txt");
-            //GetFileListing();
-        }
-
-        public static async Task<IpfsFileListing> GetFileListing()
+        public static async Task<IpfsFileListing> GetFileListingAsync()
         {
             if (_FileListing == null)
             {
@@ -50,8 +44,17 @@ namespace ipfs_pswmgr
             }
             return _FileListing;
         }
+
+        public static IpfsFileListing GetFileListing()
+        {
+            if (_FileListing == null)
+            {
+                _FileListing = IpfsFileListing.Load().Result;
+            }
+            return _FileListing;
+        }
         
-        public static string ExecuteCommand(string command, string arguments, HandleOutput deleg)
+        public static string ExecuteCommand(string command, string arguments, HandleOutput handleOutputDelegate)
         {
             Process process = new Process();
             process.StartInfo = new ProcessStartInfo("ipfs", $"{command} {arguments}");
@@ -66,7 +69,7 @@ namespace ipfs_pswmgr
                 var text = reader.ReadToEnd();
                 if (!string.IsNullOrEmpty(text))
                 {
-                    return deleg?.Invoke(text);
+                    return handleOutputDelegate?.Invoke(text);
                 }
             }
             using (StreamReader reader = process.StandardError)
@@ -84,17 +87,22 @@ namespace ipfs_pswmgr
             });
         }
 
-        public static async Task<bool> Publish(string hashFilename)
+        public static async Task<bool> PublishAsync(string hashFilename)
         {
             return await Task.Run(delegate
             {
-                string returnText = ExecuteCommand("name", $"publish {hashFilename}", delegate (string text)
-                {
-                    return text;
-                });
-
-                return returnText.Contains("Published to");
+                return Publish(hashFilename);
             });
+        }
+
+        public static bool Publish(string hashFilename)
+        {
+            string returnText = ExecuteCommand("name", $"publish {hashFilename}", delegate (string text)
+            {
+                return text;
+            });
+
+            return returnText.Contains("Published to");
         }
 
         public static bool Get(string hash, string filename)

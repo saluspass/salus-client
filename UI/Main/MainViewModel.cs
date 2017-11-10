@@ -156,7 +156,7 @@ namespace ipfs_pswmgr
         private async Task SyncIpfsListingImpl()
         {
             Status = "Synching with Network...";
-            await Ipfs.GetFileListing();
+            await Ipfs.GetFileListingAsync();
             Status = "Up to date";
         }
 

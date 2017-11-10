@@ -134,7 +134,7 @@ namespace ipfs_pswmgr
             }
 
             string hashFilename = Ipfs.Add(ListingFilename);
-            await Ipfs.Publish(hashFilename);
+            await Ipfs.PublishAsync(hashFilename);
         }
 
         #endregion
