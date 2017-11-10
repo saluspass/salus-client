@@ -38,13 +38,13 @@ namespace ipfs_pswmgr
             IpfsFileListing returnValue = null;
             try
             {
-                string listingFileHash = Ipfs.Resolve();
+                string listingFileHash = await IpfsApi.Resolve();
                 if(string.IsNullOrEmpty(listingFileHash))
                 {
-                    listingFileHash = Ipfs.Resolve();
+                    listingFileHash = await IpfsApi.Resolve();
                 }
 
-                if (!string.IsNullOrEmpty(listingFileHash) && Ipfs.Get(listingFileHash, ListingFilename))
+                if (!string.IsNullOrEmpty(listingFileHash) && IpfsApi.Get(listingFileHash, ListingFilename))
                 {
                     using (StreamReader reader = new StreamReader(File.OpenRead(ListingFilename)))
                     {
@@ -74,12 +74,12 @@ namespace ipfs_pswmgr
             var files = Directory.GetFiles(FileSystemConstants.PswmgrDataFolder);
             await Task.Run(delegate
             {
-                Parallel.ForEach(files, delegate (string filename)
+                Parallel.ForEach(files, async delegate (string filename)
                 {
                     string localFilename = Path.GetFileNameWithoutExtension(filename);
                     if (!_Files.Any(o => o.LocalFilename == localFilename))
                     {
-                        string hashFilename = Ipfs.Add(filename);
+                        string hashFilename = await IpfsApi.Add(filename);
 
                         IpfsFile file = new IpfsFile
                         {
@@ -117,7 +117,7 @@ namespace ipfs_pswmgr
                     }
                     else
                     {
-                        Ipfs.Get(file.RemoteFilename, filename);
+                        IpfsApi.Get(file.RemoteFilename, filename);
                         PasswordEntryManager.Instance.AddEntry(PasswordEntry.Load(filename));
                     }
                 });
@@ -133,8 +133,8 @@ namespace ipfs_pswmgr
                 writer.Write(JsonConvert.SerializeObject(this, Formatting.Indented));
             }
 
-            string hashFilename = Ipfs.Add(ListingFilename);
-            await Ipfs.PublishAsync(hashFilename);
+            string hashFilename = await IpfsApi.Add(ListingFilename);
+            await IpfsApi.PublishAsync(hashFilename);
         }
 
         #endregion

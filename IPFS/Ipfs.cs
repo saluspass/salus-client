@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ipfs_pswmgr
 {
-    public static class Ipfs
+    public static class IpfsApi
     {
         #region Nested
 
@@ -17,23 +17,37 @@ namespace ipfs_pswmgr
 
         private static IpfsFileListing _FileListing;
         private static Process _DaemonProcess;
+        private static readonly Ipfs.Api.IpfsClient _Client = new Ipfs.Api.IpfsClient();
 
-        public static string Add(string filename)
+        public static async Task<string> Add(string filename)
         {
             if(!File.Exists(filename))
             {
                 return null;
             }
 
-            return ExecuteCommand("add", $"{filename}", delegate(string text)
+            Ipfs.Api.FileSystemNode node = await _Client.FileSystem.AddFileAsync(filename);
+            return node.Hash;
+
+            /*System.Threading.CancellationToken token = new System.Threading.CancellationToken();
+            string text = await _Client.PostCommandAsync("add", token, filename);
+
+            var splitText = text.Split(' ');
+            if (splitText[0] == "added" && splitText[2].TrimEnd(new[] { '\n' }) == Path.GetFileName(filename))
             {
-                var splitText = text.Split(' ');
-                if (splitText[0] == "added" && splitText[2].TrimEnd(new[] { '\n' }) == Path.GetFileName(filename))
-                {
-                    return splitText[1];
-                }
-                return null;
-            });
+                return splitText[1];
+            }
+            return null;
+
+            /*            return await ExecuteCommand("add", $"{filename}", delegate(string text)
+                        {
+                            var splitText = text.Split(' ');
+                            if (splitText[0] == "added" && splitText[2].TrimEnd(new[] { '\n' }) == Path.GetFileName(filename))
+                            {
+                                return splitText[1];
+                            }
+                            return null;
+                        });*/
         }
 
         public static async Task<IpfsFileListing> GetFileListingAsync()
@@ -54,34 +68,17 @@ namespace ipfs_pswmgr
             return _FileListing;
         }
         
-        public static string ExecuteCommand(string command, string arguments, HandleOutput handleOutputDelegate)
+        public static async Task<string> ExecuteCommand(string command, string arguments, HandleOutput handleOutputDelegate)
         {
-            Process process = new Process();
-            process.StartInfo = new ProcessStartInfo("ipfs", $"{command} {arguments}");
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardError = true;
-            process.StartInfo.RedirectStandardInput = true;
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.CreateNoWindow = true;
-            process.Start();
-            using (StreamReader reader = process.StandardOutput)
-            {
-                var text = reader.ReadToEnd();
-                if (!string.IsNullOrEmpty(text))
-                {
-                    return handleOutputDelegate?.Invoke(text);
-                }
-            }
-            using (StreamReader reader = process.StandardError)
-            {
-                var text = reader.ReadToEnd();
-            }
-            return null;
+            System.Threading.CancellationToken token = new System.Threading.CancellationToken();
+            string text = await _Client.DoCommandAsync(command, token, arguments);
+
+            return handleOutputDelegate?.Invoke(text);
         }
 
-        public static string Resolve(string name = null)
+        public static async Task<string> Resolve(string name = null)
         {
-            return ExecuteCommand("name", $"resolve {name}", delegate (string text)
+            return await ExecuteCommand("name resolve", $"{name}", delegate (string text)
             {
                 return text.TrimEnd('\n').Substring(6);
             });
@@ -89,15 +86,7 @@ namespace ipfs_pswmgr
 
         public static async Task<bool> PublishAsync(string hashFilename)
         {
-            return await Task.Run(delegate
-            {
-                return Publish(hashFilename);
-            });
-        }
-
-        public static bool Publish(string hashFilename)
-        {
-            string returnText = ExecuteCommand("name", $"publish {hashFilename}", delegate (string text)
+            string returnText = await ExecuteCommand("name publish", $"{hashFilename}", delegate (string text)
             {
                 return text;
             });
@@ -113,7 +102,7 @@ namespace ipfs_pswmgr
                 lastModified = File.GetLastWriteTime(filename);
             }
 
-            ExecuteCommand("get", $"-o {filename} {hash}", null);
+            var res = ExecuteCommand("get", $"-o {filename} {hash}", null).Result;
 
             return File.Exists(filename) && File.GetLastWriteTime(filename) > lastModified;
         }

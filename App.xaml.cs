@@ -43,7 +43,7 @@ namespace ipfs_pswmgr
 
         private void OnApplicationStartup()
         {
-            Ipfs.StartDaemon();
+            IpfsApi.StartDaemon();
 
             AutoUpdater.Launch();
 
@@ -64,7 +64,7 @@ namespace ipfs_pswmgr
 
         protected override void OnExit(ExitEventArgs e)
         {
-            Ipfs.StopDaemon();
+            IpfsApi.StopDaemon();
 
             base.OnExit(e);
         }
