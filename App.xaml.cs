@@ -45,8 +45,6 @@ namespace ipfs_pswmgr
         {
             Ipfs.StartDaemon();
 
-            Ipfs.Test();
-
             AutoUpdater.Launch();
 
             MainWindow mainWindow = new MainWindow();
