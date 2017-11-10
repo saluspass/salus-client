@@ -39,7 +39,7 @@ namespace ipfs_pswmgr
 
         #region Methods
 
-        public async void LoadPasswords(Action afterCompleted)
+        public async void LoadPasswords()
         {
             _Passwords.Clear();
 
@@ -50,12 +50,12 @@ namespace ipfs_pswmgr
             {
                 Parallel.ForEach(files, delegate (string file)
                 {
-                        var val = PasswordEntry.Load(file);
-                        ExceptionUtilities.TryCatchIgnore(() => App.Instance.Dispatcher.Invoke(() => _Passwords.Add(val)));
+                    var val = PasswordEntry.Load(file);
+                    ExceptionUtilities.TryCatchIgnore(() => App.Instance.Dispatcher.Invoke(() => _Passwords.Add(val)));
                 });
             });
 
-            afterCompleted?.Invoke();
+            OnFinishedLoading();
         }
 
         public void AddEntry(PasswordEntry entry)
@@ -77,6 +77,17 @@ namespace ipfs_pswmgr
             {
                 entry.Save();
             }
+        }
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler FinishedLoading;
+
+        protected void OnFinishedLoading()
+        {
+            FinishedLoading?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion

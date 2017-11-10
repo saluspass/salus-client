@@ -118,6 +118,7 @@ namespace ipfs_pswmgr
                     else
                     {
                         Ipfs.Get(file.RemoteFilename, filename);
+                        PasswordEntryManager.Instance.AddEntry(PasswordEntry.Load(filename));
                     }
                 });
             });

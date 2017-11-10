@@ -38,17 +38,8 @@ namespace ipfs_pswmgr
             _Passwords = new ObservableCollection<PasswordEntry>();
 
             Status = "Loading Passwords...";
-            PasswordEntryManager.Instance.LoadPasswords(delegate
-            {
-                Status = null;
-
-                foreach (var entry in PasswordEntryManager.Instance.Passwords)
-                {
-                    _Passwords.Add(entry);
-                }
-
-                SyncIpfsListing();
-            });
+            PasswordEntryManager.Instance.FinishedLoading += Instance_FinishedLoading;
+            PasswordEntryManager.Instance.LoadPasswords();
         }
 
         #endregion
@@ -122,7 +113,7 @@ namespace ipfs_pswmgr
         {
             get
             {
-                return new DelegateCommand(() => PasswordEntryManager.Instance.LoadPasswords(null));
+                return new DelegateCommand(PasswordEntryManager.Instance.LoadPasswords);
             }
         }
 
@@ -312,6 +303,48 @@ namespace ipfs_pswmgr
             return new string(result);
         }
 
+        private void OnPasswordsFinishedLoading()
+        {
+            PasswordEntryManager.Instance.Passwords.CollectionChanged += Passwords_CollectionChanged;
+
+            Status = null;
+
+            foreach (var entry in PasswordEntryManager.Instance.Passwords)
+            {
+                _Passwords.Add(entry);
+            }
+
+            SyncIpfsListing();
+        }
+
+        private void OnPasswordsMoved()
+        {
+        }
+
+        private void OnPasswordsReset()
+        {
+        }
+
+        private void OnPasswordReplaced()
+        {
+        }
+
+        private void OnPasswordRemoved(System.Collections.IList oldItems)
+        {
+            foreach (PasswordEntry entry in oldItems.OfType<PasswordEntry>())
+            {
+                App.Instance.Dispatcher.Invoke(() => _Passwords.Remove(entry));
+            }
+        }
+
+        private void OnPasswordAdded(System.Collections.IList newItems)
+        {
+            foreach(PasswordEntry entry in newItems.OfType<PasswordEntry>())
+            {
+                App.Instance.Dispatcher.Invoke(() => _Passwords.Add(entry));
+            }
+        }
+
         #endregion
 
         #region Events
@@ -321,6 +354,41 @@ namespace ipfs_pswmgr
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
+        #region Event Handlers
+
+        private void Instance_FinishedLoading(object sender, EventArgs e)
+        {
+            OnPasswordsFinishedLoading();
+        }
+
+        private void Passwords_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            switch(e.Action)
+            {
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+                    OnPasswordAdded(e.NewItems);
+                    break;
+
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+                    OnPasswordRemoved(e.OldItems);
+                    break;
+
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
+                    OnPasswordReplaced();
+                    break;
+
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+                    OnPasswordsReset();
+                    break;
+
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
+                    OnPasswordsMoved();
+                    break;
+            }
         }
 
         #endregion
