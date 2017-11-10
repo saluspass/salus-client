@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ipfs_pswmgr
 {
@@ -38,14 +39,14 @@ namespace ipfs_pswmgr
         public static void Test()
         {
             //Add(@"X:\IPFS\test.txt");
-            GetFileListing();
+            //GetFileListing();
         }
 
-        public static IpfsFileListing GetFileListing()
+        public static async Task<IpfsFileListing> GetFileListing()
         {
             if (_FileListing == null)
             {
-                _FileListing = IpfsFileListing.Load();
+                _FileListing = await IpfsFileListing.Load();
             }
             return _FileListing;
         }
@@ -83,14 +84,17 @@ namespace ipfs_pswmgr
             });
         }
 
-        public static bool Publish(string hashFilename)
+        public static async Task<bool> Publish(string hashFilename)
         {
-            string returnText = ExecuteCommand("name", $"publish {hashFilename}", delegate (string text)
+            return await Task.Run(delegate
             {
-                return text;
-            });
+                string returnText = ExecuteCommand("name", $"publish {hashFilename}", delegate (string text)
+                {
+                    return text;
+                });
 
-            return returnText.Contains("Published to");
+                return returnText.Contains("Published to");
+            });
         }
 
         public static bool Get(string hash, string filename)
@@ -131,15 +135,18 @@ namespace ipfs_pswmgr
             string filename = Path.Combine(FileSystemConstants.IpfsConfigFolder, "repo.lock");
             if(File.Exists(filename))
             {
-                var json = File.ReadAllText(filename);
-                Newtonsoft.Json.Linq.JObject obj = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(json);
-                int pid;
-                int.TryParse(obj["OwnerPID"].ToString(), out pid);
-
-                if(!Process.GetProcesses().Any(o => o.Id == pid))
+                ExceptionUtilities.TryCatchIgnore(delegate
                 {
-                    File.Delete(filename);
-                }
+                    var json = File.ReadAllText(filename);
+                    Newtonsoft.Json.Linq.JObject obj = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(json);
+                    int pid;
+                    int.TryParse(obj["OwnerPID"].ToString(), out pid);
+
+                    if (!Process.GetProcesses().Any(o => o.Id == pid))
+                    {
+                        File.Delete(filename);
+                    }
+                });
             }
         }
     }

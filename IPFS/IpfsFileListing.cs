@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ipfs_pswmgr
 {
@@ -32,7 +35,7 @@ namespace ipfs_pswmgr
 
         #region Methods
 
-        public static IpfsFileListing Load()
+        public static async Task<IpfsFileListing> Load()
         {
             IpfsFileListing returnValue = null;
             try
@@ -58,13 +61,48 @@ namespace ipfs_pswmgr
                 if(returnValue == null)
                 {
                     returnValue = new IpfsFileListing();
-                    returnValue.Save();
+                    await returnValue.Save();
                 }
             }
+
+            await returnValue.Sync();
+
             return returnValue;
         }
 
-        public void Save()
+        private async Task Sync()
+        {
+            object lockObject = new object();
+            var files = Directory.GetFiles(FileSystemConstants.PswmgrDataFolder);
+            await Task.Run(() =>
+                Parallel.ForEach(files, delegate (string filename)
+                {
+                    string localFilename = Path.GetFileNameWithoutExtension(filename);
+                    if (!_Files.Any(o => o.LocalFilename == localFilename))
+                    {
+                        string hashFilename = Ipfs.Add(filename);
+
+                        IpfsFile file = new IpfsFile
+                        {
+                            LocalFilename = filename,
+                            RemoteFilename = hashFilename
+                        };
+                        file.ComputerAndStoreHash(filename);
+                        lock (lockObject)
+                        {
+                            _Files.Add(file);
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }));
+
+            await Save();
+        }
+
+        public async Task Save()
         {
             using (StreamWriter writer = new StreamWriter(ListingFilename))
             {
@@ -72,7 +110,7 @@ namespace ipfs_pswmgr
             }
 
             string hashFilename = Ipfs.Add(ListingFilename);
-            Ipfs.Publish(hashFilename);
+            await Ipfs.Publish(hashFilename);
         }
 
         #endregion
