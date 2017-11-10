@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -16,9 +15,15 @@ namespace ipfs_pswmgr
 
         #endregion
 
+        #region Variables
+
         private static IpfsFileListing _FileListing;
         private static Process _DaemonProcess;
         private static readonly Ipfs.Api.IpfsClient _Client = new Ipfs.Api.IpfsClient();
+
+        #endregion
+
+        #region Methods
 
         public static async Task<string> Add(string filename)
         {
@@ -116,5 +121,7 @@ namespace ipfs_pswmgr
                 });
             }
         }
+
+        #endregion
     }
 }

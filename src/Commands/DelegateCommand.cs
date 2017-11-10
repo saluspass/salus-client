@@ -8,10 +8,14 @@ namespace ipfs_pswmgr
     /// </summary>
     public class DelegateCommand : ICommand
     {
+        #region Variables
+
         private readonly Predicate<object> _canExecute;
         private readonly Action _execute;
 
-        public event EventHandler CanExecuteChanged;
+        #endregion
+
+        #region Ctor
 
         public DelegateCommand(Action execute)
             : this(execute, null)
@@ -23,6 +27,10 @@ namespace ipfs_pswmgr
             _execute = execute;
             _canExecute = canExecute;
         }
+
+        #endregion
+
+        #region Methods
 
         public bool CanExecute(object parameter)
         {
@@ -39,9 +47,17 @@ namespace ipfs_pswmgr
             _execute();
         }
 
+        #endregion
+
+        #region Events
+
+        public event EventHandler CanExecuteChanged;
+
         public void RaiseCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
+
+        #endregion
     }
 }

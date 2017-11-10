@@ -2,7 +2,7 @@
 
 namespace ipfs_pswmgr
 {
-    class NewPasswordCommand : AbstractCommand
+    internal class NewPasswordCommand : AbstractCommand
     {
         #region Variables
 

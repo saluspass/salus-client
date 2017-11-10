@@ -2,7 +2,7 @@
 
 namespace ipfs_pswmgr
 {
-    class ShowOptionsCommand : AbstractCommand
+    internal class ShowOptionsCommand : AbstractCommand
     {
         #region Variables
 

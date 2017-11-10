@@ -9,8 +9,8 @@ namespace ipfs_pswmgr
     {
         #region Variables
 
+        private static Lazy<PasswordEntryManager> _Instance = new Lazy<PasswordEntryManager>();
         private readonly ObservableCollection<PasswordEntry> _Passwords;
-        static Lazy<PasswordEntryManager> _Instance = new Lazy<PasswordEntryManager>();
 
         #endregion
 
