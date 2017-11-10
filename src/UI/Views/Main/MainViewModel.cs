@@ -140,6 +140,11 @@ namespace ipfs_pswmgr
             get { return new DelegateCommand(GeneratePasswordImpl); }
         }
 
+        public ICommand ExportDataFiles
+        {
+            get { return new ExportDataFilesCommand(_View); }
+        }
+
         #endregion
 
         #endregion

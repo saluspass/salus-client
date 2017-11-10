@@ -119,6 +119,7 @@
     </ApplicationDefinition>
     <Compile Include="Commands\AbstractCommand.cs" />
     <Compile Include="Commands\Exit.cs" />
+    <Compile Include="Commands\ExportDataFiles.cs" />
     <Compile Include="Commands\NewPassword.cs" />
     <Compile Include="Commands\ShowOptions.cs" />
     <Compile Include="DataEventArgs.cs" />
