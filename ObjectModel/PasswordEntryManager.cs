@@ -43,6 +43,8 @@ namespace ipfs_pswmgr
         {
             _Passwords.Clear();
 
+            Directory.CreateDirectory(FileSystemConstants.PswmgrDataFolder);
+
             var files = Directory.GetFiles(FileSystemConstants.PswmgrDataFolder, "*.json");
             await Task.Run(delegate
             {

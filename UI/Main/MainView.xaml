@@ -115,7 +115,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="{Binding ConnectedStatus}"/>
+                <TextBlock Grid.Column="0" Text="{Binding Status, Mode=OneWay}" Width="150"/>
             </Grid>
         </StatusBar>
     </Grid>

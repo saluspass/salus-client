@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace ipfs_pswmgr
 {
-    public class MainViewModel
+    public class MainViewModel : INotifyPropertyChanged
     {
         #region Variables
 
@@ -21,6 +21,7 @@ namespace ipfs_pswmgr
 
         private int _SelectedPasswordIndex;
         private string _SearchText;
+        private string _Status;
 
         private readonly ObservableCollection<PasswordEntry> _Passwords;
 
@@ -36,8 +37,11 @@ namespace ipfs_pswmgr
             _SelectedPasswordIndex = -1;
             _Passwords = new ObservableCollection<PasswordEntry>();
 
+            Status = "Loading Passwords...";
             PasswordEntryManager.Instance.LoadPasswords(delegate
             {
+                Status = null;
+
                 foreach (var entry in PasswordEntryManager.Instance.Passwords)
                 {
                     _Passwords.Add(entry);
@@ -79,6 +83,19 @@ namespace ipfs_pswmgr
                 if (_SelectedPasswordIndex != value)
                 {
                     _SelectedPasswordIndex = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string Status
+        {
+            get { return _Status; }
+            private set
+            {
+                if(value != _Status)
+                {
+                    _Status = value;
                     OnPropertyChanged();
                 }
             }
@@ -147,7 +164,9 @@ namespace ipfs_pswmgr
 
         private async Task SyncIpfsListingImpl()
         {
+            Status = "Synching with Network...";
             await Ipfs.GetFileListing();
+            Status = "Up to date";
         }
 
         private void Search(string searchTerm)

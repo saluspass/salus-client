@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -74,7 +72,8 @@ namespace ipfs_pswmgr
         {
             object lockObject = new object();
             var files = Directory.GetFiles(FileSystemConstants.PswmgrDataFolder);
-            await Task.Run(() =>
+            await Task.Run(delegate
+            {
                 Parallel.ForEach(files, delegate (string filename)
                 {
                     string localFilename = Path.GetFileNameWithoutExtension(filename);
@@ -95,9 +94,33 @@ namespace ipfs_pswmgr
                     }
                     else
                     {
+                        IpfsFile file = _Files.First(o => o.LocalFilename == localFilename);
+                        if(file.ComputeHash(filename) != file.Hash)
+                        {
 
+                        }
                     }
-                }));
+                });
+            });
+
+            await Task.Run(delegate
+            {
+                Parallel.ForEach(_Files, delegate (IpfsFile file)
+                {
+                    string filename = Path.Combine(FileSystemConstants.PswmgrDataFolder, Path.ChangeExtension(file.LocalFilename, ".json"));
+                    if (File.Exists(filename))
+                    {
+                        if (file.ComputeHash(filename) != file.Hash)
+                        {
+                            //Download or upload
+                        }
+                    }
+                    else
+                    {
+                        Ipfs.Get(file.RemoteFilename, filename);
+                    }
+                });
+            });
 
             await Save();
         }
