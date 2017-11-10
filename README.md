@@ -17,7 +17,7 @@ Decentralized zero knowldge password storage application using RSA 2048 encrypti
 
 ## Prerequisites
 
-Either Visual Studio, the .NET framework (4.6.2), or an equivalent framework (such as Mono) must be installed prior to launching the application. In addition, IPFS must have already been installed on the client machine
+Either Visual Studio, the .NET framework (4.6.1), or an equivalent framework (such as Mono) must be installed prior to launching the application. In addition, IPFS must have already been installed on the client machine
 
 ## Security Issues
 
