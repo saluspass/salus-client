@@ -89,6 +89,9 @@
     <Compile Include="Commands\Exit.cs" />
     <Compile Include="Commands\NewPassword.cs" />
     <Compile Include="Commands\ShowOptions.cs" />
+    <Compile Include="IPFS\Ipfs.cs" />
+    <Compile Include="IPFS\IpfsFile.cs" />
+    <Compile Include="IPFS\IpfsFileListing.cs" />
     <Compile Include="ObjectModel\Conf.cs" />
     <Compile Include="ObjectModel\EncryptionKey.cs" />
     <Compile Include="ObjectModel\PasswordEntry.cs" />
@@ -113,10 +116,14 @@
     <Compile Include="Utilities\Constants\ReleasesConstants.cs" />
     <Compile Include="Utilities\ExceptionUtilities.cs" />
     <Compile Include="Utilities\Constants\FileSystemConstants.cs" />
+    <Compile Include="Utilities\Extensions\StringExtensions.cs" />
+    <Compile Include="Utilities\Interfaces\IDirtableObject.cs" />
     <Compile Include="Utilities\PemKeyUtils.cs" />
     <Compile Include="Utilities\Extensions\SecureStringExtensions.cs" />
     <Compile Include="UI\Converters\StringToHiddenStringConverter.cs" />
-    <Compile Include="Web\CustomizedWebClient.cs" />
+    <Compile Include="Web\CustomizedWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Page Include="UI\FirstRun\FirstRunView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
