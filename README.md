@@ -1,5 +1,7 @@
 # ipfs-pswmgr
 
+![Release](https://img.shields.io/github/release/viperman1271/ipfs-pswmgr/all.svg)
+
 ![Demo Image](https://github.com/viperman1271/ipfs-pswmgr/blob/master/images/Password_Manager_Demo.jpg)
 
 Decentralized zero knowldge password storage application using RSA 2048 encryption to encrypt and store password details, propagating the data files via [IPFS](https://ipfs.io/).
