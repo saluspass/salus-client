@@ -11,6 +11,7 @@ namespace ipfs_pswmgr
         public Conf()
         {
             CheckForUpdates = true;
+            RandomPasswordCharacterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()!@#$%&*:;/";
         }
 
         ~Conf()
@@ -24,6 +25,13 @@ namespace ipfs_pswmgr
     
         [JsonProperty]
         public bool CheckForUpdates
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty]
+        public string RandomPasswordCharacterSet
         {
             get;
             set;
