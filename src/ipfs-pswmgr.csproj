@@ -129,22 +129,22 @@
     <Compile Include="ObjectModel\EncryptionKey.cs" />
     <Compile Include="ObjectModel\PasswordEntry.cs" />
     <Compile Include="ObjectModel\PasswordEntryManager.cs" />
-    <Compile Include="UI\Updating\UpdateViewModel.cs" />
-    <Compile Include="UI\Updating\UpdateView.xaml.cs">
+    <Compile Include="UI\Views\Updating\UpdateViewModel.cs" />
+    <Compile Include="UI\Views\Updating\UpdateView.xaml.cs">
       <DependentUpon>UpdateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Updater\AutoUpdater.cs" />
     <Compile Include="Updater\ObjectModel\Release.cs" />
-    <Compile Include="UI\Main\MainModel.cs" />
-    <Compile Include="UI\Main\MainViewModel.cs" />
-    <Compile Include="UI\New Password\NewPasswordView.xaml.cs">
+    <Compile Include="UI\Views\Main\MainModel.cs" />
+    <Compile Include="UI\Views\Main\MainViewModel.cs" />
+    <Compile Include="UI\Views\NewPassword\NewPasswordView.xaml.cs">
       <DependentUpon>NewPasswordView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\New Password\NewPasswordViewModel.cs" />
-    <Compile Include="UI\OptionsView\OptionsView.xaml.cs">
+    <Compile Include="UI\Views\NewPassword\NewPasswordViewModel.cs" />
+    <Compile Include="UI\Views\Options\OptionsView.xaml.cs">
       <DependentUpon>OptionsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\OptionsView\OptionsViewModel.cs" />
+    <Compile Include="UI\Views\Options\OptionsViewModel.cs" />
     <Compile Include="Utilities\Base32.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Utilities\Constants\ReleasesConstants.cs" />
@@ -158,11 +158,11 @@
     <Compile Include="Web\CustomizedWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Page Include="UI\FirstRun\FirstRunView.xaml">
+    <Page Include="UI\Views\FirstRun\FirstRunView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Main\MainView.xaml">
+    <Page Include="UI\Views\Main\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -170,23 +170,23 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\FirstRun\FirstRunView.xaml.cs">
+    <Compile Include="UI\Views\FirstRun\FirstRunView.xaml.cs">
       <DependentUpon>FirstRunView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\FirstRun\FirstRunViewModel.cs" />
-    <Compile Include="UI\Main\MainView.xaml.cs">
+    <Compile Include="UI\Views\FirstRun\FirstRunViewModel.cs" />
+    <Compile Include="UI\Views\Main\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="UI\New Password\NewPasswordView.xaml">
+    <Page Include="UI\Views\NewPassword\NewPasswordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\OptionsView\OptionsView.xaml">
+    <Page Include="UI\Views\Options\OptionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Updating\UpdateView.xaml">
+    <Page Include="UI\Views\Updating\UpdateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
