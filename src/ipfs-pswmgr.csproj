@@ -135,7 +135,6 @@
     </Compile>
     <Compile Include="Updater\AutoUpdater.cs" />
     <Compile Include="Updater\ObjectModel\Release.cs" />
-    <Compile Include="UI\Views\Main\MainModel.cs" />
     <Compile Include="UI\Views\Main\MainViewModel.cs" />
     <Compile Include="UI\Views\NewPassword\NewPasswordView.xaml.cs">
       <DependentUpon>NewPasswordView.xaml</DependentUpon>

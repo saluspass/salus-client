@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -16,7 +14,7 @@ namespace ipfs_pswmgr
     {
         #region Variables
 
-        private readonly MainModel _Model;
+        private readonly PasswordEntryManager _Model;
         private readonly MainWindow _View;
 
         private int _SelectedPasswordIndex;
@@ -31,15 +29,15 @@ namespace ipfs_pswmgr
 
         public MainViewModel(MainWindow view)
         {
-            _Model = new MainModel();
+            _Model = PasswordEntryManager.Instance;
             _View = view;
 
             _SelectedPasswordIndex = -1;
             _Passwords = new ObservableCollection<PasswordEntry>();
 
             Status = "Loading Passwords...";
-            PasswordEntryManager.Instance.FinishedLoading += Instance_FinishedLoading;
-            PasswordEntryManager.Instance.LoadPasswords();
+            _Model.FinishedLoading += Instance_FinishedLoading;
+            _Model.LoadPasswords();
         }
 
         #endregion
@@ -113,7 +111,7 @@ namespace ipfs_pswmgr
         {
             get
             {
-                return new DelegateCommand(PasswordEntryManager.Instance.LoadPasswords);
+                return new DelegateCommand(_Model.LoadPasswords);
             }
         }
 
@@ -159,7 +157,7 @@ namespace ipfs_pswmgr
         {
             searchTerm = searchTerm?.ToLower();
             _Passwords.Clear();
-            foreach (var entry in PasswordEntryManager.Instance.Passwords)
+            foreach (var entry in _Model.Passwords)
             {
                 if (searchTerm == null)
                 {
@@ -193,7 +191,7 @@ namespace ipfs_pswmgr
 
         internal bool AddNewPassword(PasswordEntry newPassword)
         {
-            PasswordEntryManager.Instance.AddEntry(newPassword);
+            _Model.AddEntry(newPassword);
             return true;
         }
 
@@ -300,11 +298,11 @@ namespace ipfs_pswmgr
 
         private void OnPasswordsFinishedLoading()
         {
-            PasswordEntryManager.Instance.Passwords.CollectionChanged += Passwords_CollectionChanged;
+            _Model.Passwords.CollectionChanged += Passwords_CollectionChanged;
 
             Status = null;
 
-            foreach (var entry in PasswordEntryManager.Instance.Passwords)
+            foreach (var entry in _Model.Passwords)
             {
                 _Passwords.Add(entry);
             }
