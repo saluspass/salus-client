@@ -36,5 +36,14 @@ namespace ipfs_pswmgr
 
             return ss;
         }
+
+        public static void AssignIfDifferent(this SecureString str, string strNewValue, IDirtableObject parent)
+        {
+            if (str.ConvertToUnsecureString() != strNewValue)
+            {
+                str = strNewValue.ConvertToSecureString();
+                parent.Dirty = true;
+            }
+        }
     }
 }
