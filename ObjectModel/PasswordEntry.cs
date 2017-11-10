@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Security;
@@ -15,12 +16,12 @@ using System.Windows.Media.Imaging;
 namespace ipfs_pswmgr
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    public class PasswordEntry : INotifyPropertyChanged
+    public class PasswordEntry : INotifyPropertyChanged, IDirtableObject
     {
         #region Nested
 
         [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-        public class Field
+        public class Field : IDirtableObject
         {
             private SecureString m_Name;
             private SecureString m_Value;
@@ -46,14 +47,14 @@ namespace ipfs_pswmgr
                 }
                 set
                 {
-                    StoreProperty(out m_Name, value);
+                    StoreProperty(this, ref m_Name, value);
                 }
             }
 
             public string Name
             {
                 get { return m_Name.ConvertToUnsecureString(); }
-                set { m_Name = value.ConvertToSecureString(); }
+                set { m_Name.AssignIfDifferent(value, this); }
             }
 
             [JsonProperty(PropertyName = "Value")]
@@ -65,14 +66,20 @@ namespace ipfs_pswmgr
                 }
                 set
                 {
-                    StoreProperty(out m_Value, value);
+                    StoreProperty(this, ref m_Value, value);
                 }
             }
 
             public string Value
             {
                 get { return m_Value.ConvertToUnsecureString(); }
-                set { m_Value = value.ConvertToSecureString(); }
+                set { m_Value.AssignIfDifferent(value, this); }
+            }
+
+            public bool Dirty
+            {
+                get;
+                set;
             }
         }
 
@@ -86,6 +93,7 @@ namespace ipfs_pswmgr
         private SecureString m_Website;
         private List<Field> m_Fields;
         private bool _SearchedForImage;
+        private bool _Dirty;
 
         #endregion
 
@@ -113,14 +121,14 @@ namespace ipfs_pswmgr
             }
             set
             {
-                StoreProperty(out m_Name, value);
+                StoreProperty(this, ref m_Name, value);
             }
         }
 
         public string Name
         {
             get { return m_Name.ConvertToUnsecureString(); }
-            set { m_Name = value.ConvertToSecureString(); }
+            set { m_Name.AssignIfDifferent(value, this); }
         }
 
         [JsonProperty(PropertyName = "Password")]
@@ -132,14 +140,14 @@ namespace ipfs_pswmgr
             }
             set
             {
-                StoreProperty(out m_Password, value);
+                StoreProperty(this, ref m_Password, value);
             }
         }
 
         public string Password
         {
             get { return m_Password.ConvertToUnsecureString(); }
-            set { m_Password = value.ConvertToSecureString(); }
+            set { m_Password.AssignIfDifferent(value, this); }
         }
 
         [JsonProperty(PropertyName = "Username")]
@@ -151,14 +159,14 @@ namespace ipfs_pswmgr
             }
             set
             {
-                StoreProperty(out m_Username, value);
+                StoreProperty(this, ref m_Username, value);
             }
         }
 
         public string Username
         {
             get { return m_Username.ConvertToUnsecureString(); }
-            set { m_Username = value.ConvertToSecureString(); }
+            set { m_Username.AssignIfDifferent(value, this); }
         }
 
         [JsonProperty(PropertyName = "Website")]
@@ -170,14 +178,14 @@ namespace ipfs_pswmgr
             }
             set
             {
-                StoreProperty(out m_Website, value);
+                StoreProperty(this, ref m_Website, value);
             }
         }
 
         public string Website
         {
             get { return m_Website.ConvertToUnsecureString(); }
-            set { m_Website = value.ConvertToSecureString(); }
+            set { m_Website.AssignIfDifferent(value, this); }
         }
 
 
@@ -193,6 +201,16 @@ namespace ipfs_pswmgr
             get { return GetIcon(); }
         }
 
+        public bool Dirty
+        {
+            get { return _Dirty || Fields.Any(o => o.Dirty); }
+            set
+            {
+                _Dirty = value;
+                Fields.ForEach(o => o.Dirty = value);
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -201,10 +219,15 @@ namespace ipfs_pswmgr
         {
             Directory.CreateDirectory(FileSystemConstants.PswmgrDataFolder);
 
-            string filename = Path.ChangeExtension(Base32.ToBase32String(SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(Name))), ".json");
-            using (StreamWriter writer = new StreamWriter(Path.Combine(FileSystemConstants.PswmgrDataFolder, filename)))
+            if (Dirty)
             {
-                writer.Write(JsonConvert.SerializeObject(this, Formatting.Indented));
+                string filename = Path.ChangeExtension(Base32.ToBase32String(SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(Name))), ".json");
+                using (StreamWriter writer = new StreamWriter(Path.Combine(FileSystemConstants.PswmgrDataFolder, filename)))
+                {
+                    writer.Write(JsonConvert.SerializeObject(this, Formatting.Indented));
+                }
+
+                Dirty = false;
             }
         }
 
@@ -216,6 +239,7 @@ namespace ipfs_pswmgr
                 string json = reader.ReadToEnd();
                 entry = JsonConvert.DeserializeObject<PasswordEntry>(json);
             }
+            entry.Dirty = false;
             return entry;
         }
 
@@ -238,12 +262,17 @@ namespace ipfs_pswmgr
             }
         }
 
-        private static void StoreProperty(out SecureString ss, string encryptedString)
+        private static void StoreProperty(IDirtableObject parent, ref SecureString ss, string encryptedString)
         {
             using (EncryptionKey key = EncryptionKey.Load())
             {
                 var decryptedString = key.DecryptString(encryptedString);
-                ss = decryptedString.ConvertToSecureString();
+                var tempSecureString = decryptedString.ConvertToSecureString();
+                if(tempSecureString.ConvertToUnsecureString() != ss.ConvertToUnsecureString())
+                {
+                    ss = tempSecureString;
+                    parent.Dirty = true;
+                }
             }
         }
 
