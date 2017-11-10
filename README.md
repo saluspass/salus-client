@@ -2,15 +2,20 @@
 
 ![Demo Image](https://github.com/viperman1271/ipfs-pswmgr/blob/master/images/Password_Manager_Demo.jpg)
 
-Decentralized zero knowldge password storage application using RSA 2048 encryption to encrypt and store password details
+Decentralized zero knowldge password storage application using RSA 2048 encryption to encrypt and store password details, propagating the data files via [IPFS](https://ipfs.io/).
 
 ## Table of Contents
 
+- [Prerequisites](#prerequisites)
 - [Security Issues](#security-issues)
 - [Dependencies](#dependencies)
 - [Cryptography Notice](#cryptography-notice)
 - [Building From Source](#building-from-source)
 - [License](#license)
+
+## Prerequisites
+
+Either Visual Studio, the .NET framework (4.6.2), or an equivalent framework (such as Mono) must be installed prior to launching the application. In addition, IPFS must have already been installed on the client machine
 
 ## Security Issues
 
