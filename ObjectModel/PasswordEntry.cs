@@ -16,12 +16,12 @@ using System.Windows.Media.Imaging;
 namespace ipfs_pswmgr
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    public class PasswordEntry : INotifyPropertyChanged, IDirtableObject
+    public class PasswordEntry : INotifyPropertyChanged, ISaveableObject
     {
         #region Nested
 
         [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-        public class Field : IDirtableObject
+        public class Field : ISaveableObject
         {
             private SecureString m_Name;
             private SecureString m_Value;
@@ -262,7 +262,7 @@ namespace ipfs_pswmgr
             }
         }
 
-        private static void StoreProperty(IDirtableObject parent, ref SecureString ss, string encryptedString)
+        private static void StoreProperty(ISaveableObject parent, ref SecureString ss, string encryptedString)
         {
             using (EncryptionKey key = EncryptionKey.Load())
             {

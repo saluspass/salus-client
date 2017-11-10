@@ -1,6 +1,6 @@
 ﻿namespace ipfs_pswmgr
 {
-    public interface IDirtableObject
+    public interface ISaveableObject
     {
         bool Dirty
         {

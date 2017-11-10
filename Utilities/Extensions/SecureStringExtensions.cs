@@ -37,7 +37,7 @@ namespace ipfs_pswmgr
             return ss;
         }
 
-        public static void AssignIfDifferent(this SecureString str, string strNewValue, IDirtableObject parent)
+        public static void AssignIfDifferent(this SecureString str, string strNewValue, ISaveableObject parent)
         {
             if (str.ConvertToUnsecureString() != strNewValue)
             {

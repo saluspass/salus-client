@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace ipfs_pswmgr
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    public class IpfsFileListing
+    public class IpfsFileListing : ISaveableObject
     {
         #region Constants
 
@@ -28,6 +28,16 @@ namespace ipfs_pswmgr
         private IpfsFileListing()
         {
             _Files = new List<IpfsFile>();
+        }
+
+        #endregion
+
+        #region Properties
+
+        public bool Dirty
+        {
+            get;
+            set;
         }
 
         #endregion
@@ -53,7 +63,7 @@ namespace ipfs_pswmgr
                         returnValue = JsonConvert.DeserializeObject<IpfsFileListing>(json);
                     }
                 }
-
+                returnValue.Dirty = false;
             }
             catch
             {
@@ -80,6 +90,7 @@ namespace ipfs_pswmgr
             file.ComputerAndStoreHash(filename);
             lock (lockObject)
             {
+                Dirty = true;
                 _Files.Add(file);
             }
         }
@@ -101,11 +112,8 @@ namespace ipfs_pswmgr
             }
         }
 
-        private async Task Sync()
+        private async Task ProcessLocalFiles(string[] files, object lockObject)
         {
-            object lockObject = new object();
-            var files = Directory.GetFiles(FileSystemConstants.PswmgrDataFolder);
-
             await ForEachAsync(files, async delegate (string filename)
             {
                 string localFilename = Path.GetFileNameWithoutExtension(filename);
@@ -118,16 +126,16 @@ namespace ipfs_pswmgr
                     ResolveConflict(localFilename, filename);
                 }
             });
+        }
 
+        private async Task ProcessRemoteFileList()
+        {
             await ForEachAsync(_Files, async delegate (IpfsFile file)
             {
                 string filename = Path.Combine(FileSystemConstants.PswmgrDataFolder, Path.ChangeExtension(file.LocalFilename, ".json"));
                 if (File.Exists(filename))
                 {
-                    if (file.ComputeHash(filename) != file.Hash)
-                    {
-                        //Download or upload
-                    }
+                    ResolveConflict(file.LocalFilename, filename);
                 }
                 else
                 {
@@ -135,19 +143,33 @@ namespace ipfs_pswmgr
                     PasswordEntryManager.Instance.AddEntry(PasswordEntry.Load(filename));
                 }
             });
+        }
+
+        private async Task Sync()
+        {
+            object lockObject = new object();
+            var files = Directory.GetFiles(FileSystemConstants.PswmgrDataFolder);
+
+            await ProcessLocalFiles(files, lockObject);
+
+            await ProcessRemoteFileList();
 
             await Save();
         }
 
         public async Task Save()
         {
-            using (StreamWriter writer = new StreamWriter(ListingFilename))
+            if (Dirty)
             {
-                writer.Write(JsonConvert.SerializeObject(this, Formatting.Indented));
-            }
+                using (StreamWriter writer = new StreamWriter(ListingFilename))
+                {
+                    writer.Write(JsonConvert.SerializeObject(this, Formatting.Indented));
+                }
 
-            string hashFilename = await IpfsApi.Add(ListingFilename);
-            await IpfsApi.PublishAsync(hashFilename);
+                string hashFilename = await IpfsApi.Add(ListingFilename);
+                await IpfsApi.PublishAsync(hashFilename);
+                Dirty = false;
+            }
         }
 
         #endregion

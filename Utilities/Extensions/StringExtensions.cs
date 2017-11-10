@@ -8,7 +8,7 @@ namespace ipfs_pswmgr.Utilities.Extensions
 {
     public static class StringExtensions
     {
-        public static void AssignIfDifferent(this string str, string strNewValue, IDirtableObject parent)
+        public static void AssignIfDifferent(this string str, string strNewValue, ISaveableObject parent)
         {
             if(str != strNewValue)
             {
