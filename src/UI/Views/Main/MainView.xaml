@@ -6,7 +6,7 @@
         Height="350" 
         Width="525"
         Icon="/ipfs-pswmgr;component/Resources/PasswordManagerIcon.ico" 
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" IsVisibleChanged="Window_IsVisibleChanged">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="23"/>

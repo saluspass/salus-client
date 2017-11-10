@@ -9,7 +9,7 @@ namespace ipfs_pswmgr
     {
         #region Variables
 
-        private readonly MainViewModel m_ViewModel;
+        private readonly MainViewModel _ViewModel;
 
         #endregion
 
@@ -17,10 +17,28 @@ namespace ipfs_pswmgr
 
         public MainWindow()
         {
-            m_ViewModel = new MainViewModel(this);
-            DataContext = m_ViewModel;
+            _ViewModel = new MainViewModel(this);
+            DataContext = _ViewModel;
 
             InitializeComponent();
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void OnWindowVisibleChanged()
+        {
+            _ViewModel.LoadPasswords();
+        }
+
+        #endregion
+
+        #region Event Handlers
+
+        private void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            OnWindowVisibleChanged();
         }
 
         #endregion

@@ -20,6 +20,7 @@ namespace ipfs_pswmgr
         private int _SelectedPasswordIndex;
         private string _SearchText;
         private string _Status;
+        private bool _PasswordsLoaded;
 
         private readonly ObservableCollection<PasswordEntry> _Passwords;
 
@@ -35,9 +36,7 @@ namespace ipfs_pswmgr
             _SelectedPasswordIndex = -1;
             _Passwords = new ObservableCollection<PasswordEntry>();
 
-            Status = "Loading Passwords...";
-            _Model.FinishedLoading += Instance_FinishedLoading;
-            _Model.LoadPasswords();
+            LoadPasswords();
         }
 
         #endregion
@@ -340,6 +339,18 @@ namespace ipfs_pswmgr
             foreach(PasswordEntry entry in newItems.OfType<PasswordEntry>())
             {
                 App.Instance.Dispatcher.Invoke(() => _Passwords.Add(entry));
+            }
+        }
+
+        internal void LoadPasswords()
+        {
+            if (!_PasswordsLoaded && FirstRunViewModel.WasCompleted())
+            {
+                _PasswordsLoaded = true;
+
+                Status = "Loading Passwords...";
+                _Model.FinishedLoading += Instance_FinishedLoading;
+                _Model.LoadPasswords();
             }
         }
 
