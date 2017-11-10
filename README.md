@@ -1,4 +1,6 @@
 # ipfs-pswmgr
+[![Build Status](https://travis-ci.org/viperman1271/ipfs-pswmgr.svg?branch=master)](https://travis-ci.org/viperman1271/ipfs-pswmgr)
+
 Decentralized zero knowldge password storage application using RSA 2048 encryption to encrypt and store password details
 
 ## Table of Contents

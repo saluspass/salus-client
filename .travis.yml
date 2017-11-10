@@ -1,7 +1,2 @@
 language: csharp
 solution: ipfs-pswmgr.sln
-install:
-  - sudo apt-get install -y gtk-sharp2
-  - nuget restore ipfs-pswmgr.sln
-mono:
-  - latest
