@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -44,7 +45,7 @@ namespace ipfs_pswmgr
                     listingFileHash = await IpfsApi.Resolve();
                 }
 
-                if (!string.IsNullOrEmpty(listingFileHash) && IpfsApi.Get(listingFileHash, ListingFilename))
+                if (!string.IsNullOrEmpty(listingFileHash) && await IpfsApi.Get(listingFileHash, ListingFilename))
                 {
                     using (StreamReader reader = new StreamReader(File.OpenRead(ListingFilename)))
                     {
@@ -54,12 +55,11 @@ namespace ipfs_pswmgr
                 }
 
             }
-            catch (System.Exception ex)
+            catch
             {
                 if(returnValue == null)
                 {
                     returnValue = new IpfsFileListing();
-                    await returnValue.Save();
                 }
             }
 
@@ -68,59 +68,72 @@ namespace ipfs_pswmgr
             return returnValue;
         }
 
+        private async Task AddFileNotAlreadyExisting(string filename, object lockObject)
+        {
+            string hashFilename = await IpfsApi.Add(filename);
+
+            IpfsFile file = new IpfsFile
+            {
+                LocalFilename = filename,
+                RemoteFilename = hashFilename
+            };
+            file.ComputerAndStoreHash(filename);
+            lock (lockObject)
+            {
+                _Files.Add(file);
+            }
+        }
+
+        private void ResolveConflict(string localFilename, string filename)
+        {
+            IpfsFile file = _Files.First(o => o.LocalFilename == localFilename);
+            if (file.ComputeHash(filename) != file.Hash)
+            {
+                //TODO: Complete
+            }
+        }
+
+        private async Task ForEachAsync<T>(IEnumerable<T> source, Func<T, Task> body)
+        {
+            foreach(T item in source)
+            {
+                await body(item);
+            }
+        }
+
         private async Task Sync()
         {
             object lockObject = new object();
             var files = Directory.GetFiles(FileSystemConstants.PswmgrDataFolder);
-            await Task.Run(delegate
+
+            await ForEachAsync(files, async delegate (string filename)
             {
-                Parallel.ForEach(files, async delegate (string filename)
+                string localFilename = Path.GetFileNameWithoutExtension(filename);
+                if (!_Files.Any(o => o.LocalFilename == localFilename))
                 {
-                    string localFilename = Path.GetFileNameWithoutExtension(filename);
-                    if (!_Files.Any(o => o.LocalFilename == localFilename))
-                    {
-                        string hashFilename = await IpfsApi.Add(filename);
-
-                        IpfsFile file = new IpfsFile
-                        {
-                            LocalFilename = filename,
-                            RemoteFilename = hashFilename
-                        };
-                        file.ComputerAndStoreHash(filename);
-                        lock (lockObject)
-                        {
-                            _Files.Add(file);
-                        }
-                    }
-                    else
-                    {
-                        IpfsFile file = _Files.First(o => o.LocalFilename == localFilename);
-                        if(file.ComputeHash(filename) != file.Hash)
-                        {
-
-                        }
-                    }
-                });
+                    await AddFileNotAlreadyExisting(filename, lockObject);
+                }
+                else
+                {
+                    ResolveConflict(localFilename, filename);
+                }
             });
 
-            await Task.Run(delegate
+            await ForEachAsync(_Files, async delegate (IpfsFile file)
             {
-                Parallel.ForEach(_Files, delegate (IpfsFile file)
+                string filename = Path.Combine(FileSystemConstants.PswmgrDataFolder, Path.ChangeExtension(file.LocalFilename, ".json"));
+                if (File.Exists(filename))
                 {
-                    string filename = Path.Combine(FileSystemConstants.PswmgrDataFolder, Path.ChangeExtension(file.LocalFilename, ".json"));
-                    if (File.Exists(filename))
+                    if (file.ComputeHash(filename) != file.Hash)
                     {
-                        if (file.ComputeHash(filename) != file.Hash)
-                        {
-                            //Download or upload
-                        }
+                        //Download or upload
                     }
-                    else
-                    {
-                        IpfsApi.Get(file.RemoteFilename, filename);
-                        PasswordEntryManager.Instance.AddEntry(PasswordEntry.Load(filename));
-                    }
-                });
+                }
+                else
+                {
+                    await IpfsApi.Get(file.RemoteFilename, filename);
+                    PasswordEntryManager.Instance.AddEntry(PasswordEntry.Load(filename));
+                }
             });
 
             await Save();
