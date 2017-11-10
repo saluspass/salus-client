@@ -89,9 +89,11 @@
     <Compile Include="Commands\Exit.cs" />
     <Compile Include="Commands\NewPassword.cs" />
     <Compile Include="Commands\ShowOptions.cs" />
+    <Compile Include="DataEventArgs.cs" />
     <Compile Include="IPFS\Ipfs.cs" />
     <Compile Include="IPFS\IpfsFile.cs" />
     <Compile Include="IPFS\IpfsFileListing.cs" />
+    <Compile Include="IPFS\IpfsPubSub.cs" />
     <Compile Include="ObjectModel\Conf.cs" />
     <Compile Include="ObjectModel\EncryptionKey.cs" />
     <Compile Include="ObjectModel\PasswordEntry.cs" />

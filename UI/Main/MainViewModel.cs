@@ -40,6 +40,12 @@ namespace ipfs_pswmgr
             Status = "Loading Passwords...";
             PasswordEntryManager.Instance.FinishedLoading += Instance_FinishedLoading;
             PasswordEntryManager.Instance.LoadPasswords();
+
+            IpfsPubSub a = new IpfsPubSub("test", delegate (string data)
+            {
+                Console.WriteLine(data);
+            });
+            a.Start();
         }
 
         #endregion

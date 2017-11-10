@@ -123,7 +123,7 @@ namespace ipfs_pswmgr
             CleanReproLock();
 
             _DaemonProcess = new Process();
-            _DaemonProcess.StartInfo = new ProcessStartInfo("ipfs", "daemon");
+            _DaemonProcess.StartInfo = new ProcessStartInfo("ipfs", "daemon --enable-pubsub-experiment");
             _DaemonProcess.StartInfo.CreateNoWindow = false;
             _DaemonProcess.Start();
         }
