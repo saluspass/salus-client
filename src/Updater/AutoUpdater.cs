@@ -42,11 +42,6 @@ namespace ipfs_pswmgr
                 }
             }
 
-            while(!Debugger.IsAttached)
-            {
-                
-            }
-
             CleanupOldFiles();
 
             if (bestRelease != null && bestReleaseVersion > semAssemblyVersion)
