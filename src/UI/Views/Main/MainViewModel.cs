@@ -270,8 +270,7 @@ namespace ipfs_pswmgr
 
         private void GeneratePasswordImpl()
         {
-            const string alphanumericCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()!@#$%&*:;/";
-            string password = GetRandomString(16, alphanumericCharacters);
+            string password = GetRandomString(16, App.Instance.Conf.RandomPasswordCharacterSet);
             MessageBox.Show(_View, "New password generated and copied to the clipboard", "Password Generated", MessageBoxButton.OK, MessageBoxImage.Information);
             System.Windows.Clipboard.SetText(password);
         }
