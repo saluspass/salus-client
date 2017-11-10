@@ -44,6 +44,10 @@ namespace ipfs_pswmgr
 
         private void OnApplicationStartup()
         {
+            Ipfs.StartDaemon();
+
+            Ipfs.Test();
+
             AutoUpdater.Launch();
 
             MainWindow mainWindow = new MainWindow();
@@ -59,6 +63,13 @@ namespace ipfs_pswmgr
             }
 
             mainWindow?.Show();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            Ipfs.StopDaemon();
+
+            base.OnExit(e);
         }
 
         #endregion
