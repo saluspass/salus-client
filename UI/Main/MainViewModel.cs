@@ -36,7 +36,15 @@ namespace ipfs_pswmgr
             _SelectedPasswordIndex = -1;
             _Passwords = new ObservableCollection<PasswordEntry>();
 
-            LoadPasswords();
+            PasswordEntryManager.Instance.LoadPasswords(delegate
+            {
+                foreach (var entry in PasswordEntryManager.Instance.Passwords)
+                {
+                    _Passwords.Add(entry);
+                }
+
+                SyncIpfsListing();
+            });
         }
 
         #endregion
@@ -97,7 +105,7 @@ namespace ipfs_pswmgr
         {
             get
             {
-                return new DelegateCommand(LoadPasswords);
+                return new DelegateCommand(() => PasswordEntryManager.Instance.LoadPasswords(null));
             }
         }
 
@@ -132,27 +140,21 @@ namespace ipfs_pswmgr
 
         #region Methods
 
-        private void LoadPasswords()
+        private async void SyncIpfsListing()
         {
-            _Passwords.Clear();
+            await SyncIpfsListingImpl();
+        }
 
-            var files = Directory.GetFiles(FileSystemConstants.PswmgrDataFolder, "*.json");
-            Parallel.ForEach(files, delegate(string file)
-            {
-                Task.Run(() =>
-                {
-                    var val = PasswordEntry.Load(file);
-                    _Model.AddEntry(val);
-                    ExceptionUtilities.TryCatchIgnore(() => App.Instance.Dispatcher.Invoke(() => _Passwords.Add(val)));
-                });
-            });
+        private async Task SyncIpfsListingImpl()
+        {
+            await Ipfs.GetFileListing();
         }
 
         private void Search(string searchTerm)
         {
             searchTerm = searchTerm?.ToLower();
             _Passwords.Clear();
-            foreach (var entry in _Model.Entries)
+            foreach (var entry in PasswordEntryManager.Instance.Passwords)
             {
                 if (searchTerm == null)
                 {
@@ -186,7 +188,7 @@ namespace ipfs_pswmgr
 
         internal bool AddNewPassword(PasswordEntry newPassword)
         {
-            _Model.AddEntry(newPassword);
+            PasswordEntryManager.Instance.AddEntry(newPassword);
             return true;
         }
 

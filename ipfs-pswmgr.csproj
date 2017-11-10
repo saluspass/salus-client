@@ -95,6 +95,7 @@
     <Compile Include="ObjectModel\Conf.cs" />
     <Compile Include="ObjectModel\EncryptionKey.cs" />
     <Compile Include="ObjectModel\PasswordEntry.cs" />
+    <Compile Include="ObjectModel\PasswordEntryManager.cs" />
     <Compile Include="UI\Updating\UpdateViewModel.cs" />
     <Compile Include="UI\Updating\UpdateView.xaml.cs">
       <DependentUpon>UpdateView.xaml</DependentUpon>
