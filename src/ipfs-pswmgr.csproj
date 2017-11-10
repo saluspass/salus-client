@@ -221,5 +221,16 @@
     <Resource Include="Resources\PasswordManagerIcon.ico" />
     <Resource Include="Resources\PasswordManagerIcon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Exit.ico" />
+    <Resource Include="Resources\Export.ico" />
+    <Resource Include="Resources\Find.ico" />
+    <Resource Include="Resources\NewDocument.ico" />
+    <Resource Include="Resources\Options.ico" />
+    <Resource Include="Resources\Refresh.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Tool.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

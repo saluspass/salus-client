@@ -18,14 +18,39 @@
         <!-- Menu -->
         <Menu Grid.Row="0">
             <MenuItem Header="File">
-                <MenuItem Header="New" Command="{Binding AddPassword}"/>
-                <MenuItem Header="Options" Command="{Binding ShowOptions}"/>
-                <MenuItem Header="Refresh" Command="{Binding RefreshPasswords}"/>
+                <MenuItem Header="New" Command="{Binding AddPassword}">
+                    <MenuItem.Icon>
+                        <Image Source="/ipfs-pswmgr;component/Resources/NewDocument.ico"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Options" Command="{Binding ShowOptions}">
+                    <MenuItem.Icon>
+                        <Image Source="/ipfs-pswmgr;component/Resources/Options.ico"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Refresh" Command="{Binding RefreshPasswords}">
+                    <MenuItem.Icon>
+                        <Image Source="/ipfs-pswmgr;component/Resources/Refresh.ico"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator/>
-                <MenuItem Header="Exit" Command="{Binding Exit}"/>
+                <MenuItem Header="Exit" Command="{Binding Exit}">
+                    <MenuItem.Icon>
+                        <Image Source="/ipfs-pswmgr;component/Resources/Exit.ico"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Tools">
-                <MenuItem Header="Generate Password" Command="{Binding GeneratePassword}"/>
+                <MenuItem Header="Generate Password" Command="{Binding GeneratePassword}">
+                    <MenuItem.Icon>
+                        <Image Source="/ipfs-pswmgr;component/Resources/Tool.ico"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Backup Data Files" Command="{Binding ExportDataFiles}">
+                    <MenuItem.Icon>
+                        <Image Source="/ipfs-pswmgr;component/Resources/Export.ico"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
 
