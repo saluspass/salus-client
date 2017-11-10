@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ipfs_pswmgr
@@ -28,26 +29,6 @@ namespace ipfs_pswmgr
 
             Ipfs.Api.FileSystemNode node = await _Client.FileSystem.AddFileAsync(filename);
             return node.Hash;
-
-            /*System.Threading.CancellationToken token = new System.Threading.CancellationToken();
-            string text = await _Client.PostCommandAsync("add", token, filename);
-
-            var splitText = text.Split(' ');
-            if (splitText[0] == "added" && splitText[2].TrimEnd(new[] { '\n' }) == Path.GetFileName(filename))
-            {
-                return splitText[1];
-            }
-            return null;
-
-            /*            return await ExecuteCommand("add", $"{filename}", delegate(string text)
-                        {
-                            var splitText = text.Split(' ');
-                            if (splitText[0] == "added" && splitText[2].TrimEnd(new[] { '\n' }) == Path.GetFileName(filename))
-                            {
-                                return splitText[1];
-                            }
-                            return null;
-                        });*/
         }
 
         public static async Task<IpfsFileListing> GetFileListingAsync()
@@ -67,44 +48,33 @@ namespace ipfs_pswmgr
             }
             return _FileListing;
         }
-        
-        public static async Task<string> ExecuteCommand(string command, string arguments, HandleOutput handleOutputDelegate)
-        {
-            System.Threading.CancellationToken token = new System.Threading.CancellationToken();
-            string text = await _Client.DoCommandAsync(command, token, arguments);
-
-            return handleOutputDelegate?.Invoke(text);
-        }
 
         public static async Task<string> Resolve(string name = null)
         {
-            return await ExecuteCommand("name resolve", $"{name}", delegate (string text)
-            {
-                return text.TrimEnd('\n').Substring(6);
-            });
+            System.Threading.CancellationToken token = new System.Threading.CancellationToken();
+            string json = await _Client.DoCommandAsync("name/resolve", token, name);
+
+            var jObject = Newtonsoft.Json.Linq.JObject.Parse(json);
+            return jObject["Path"] != null ? jObject.Value<string>("Path").Substring(6) : null;
         }
 
         public static async Task<bool> PublishAsync(string hashFilename)
         {
-            string returnText = await ExecuteCommand("name publish", $"{hashFilename}", delegate (string text)
-            {
-                return text;
-            });
-
-            return returnText.Contains("Published to");
+            System.Threading.CancellationToken token = new System.Threading.CancellationToken();
+            string json = await _Client.UploadAsync("name/publish", token, Encoding.UTF8.GetBytes(hashFilename));
+            var jObject = Newtonsoft.Json.Linq.JObject.Parse(json);
+            return jObject["Name"] != null && jObject["Value"] != null;
         }
 
-        public static bool Get(string hash, string filename)
+        public static async Task<bool> Get(string hash, string filename)
         {
-            DateTime lastModified = DateTime.Now;
-            if (File.Exists(filename))
+            string content = await _Client.FileSystem.ReadAllTextAsync(hash);
+            if (!string.IsNullOrEmpty(content))
             {
-                lastModified = File.GetLastWriteTime(filename);
+                File.WriteAllText(filename, content);
+                return true;
             }
-
-            var res = ExecuteCommand("get", $"-o {filename} {hash}", null).Result;
-
-            return File.Exists(filename) && File.GetLastWriteTime(filename) > lastModified;
+            return false;
         }
 
         public static void StartDaemon()
