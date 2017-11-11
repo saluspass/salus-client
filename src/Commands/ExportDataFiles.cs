@@ -34,7 +34,7 @@ namespace Salus
             };
             Directory.CreateDirectory(folderName);
 
-            File.Copy(Path.Combine(FileSystemConstants.IpfsConfigFolder, "config"), Path.Combine(folderName, "config"));
+            File.Copy(Path.Combine(FileSystemConstants.IpfsConfigFolder, "keystore", "salus"), Path.Combine(folderName, "salus"));
             File.Copy(Path.Combine(FileSystemConstants.PswmgrConfigFolder, "public.pem"), Path.Combine(folderName, "public.pem"));
             File.Copy(Path.Combine(FileSystemConstants.PswmgrConfigFolder, "private.pem"), Path.Combine(folderName, "private.pem"));
             File.Copy(Path.Combine(FileSystemConstants.PswmgrConfigFolder, "conf.json"), Path.Combine(folderName, "conf.json"));
