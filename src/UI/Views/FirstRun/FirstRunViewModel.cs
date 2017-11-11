@@ -100,7 +100,7 @@ namespace Salus
                 MoveFile(Path.Combine(folderName, "public.pem"), Path.Combine(FileSystemConstants.PswmgrConfigFolder, "public.pem"));
                 MoveFile(Path.Combine(folderName, "private.pem"), Path.Combine(FileSystemConstants.PswmgrConfigFolder, "private.pem"));
                 MoveFile(Path.Combine(folderName, "conf.json"), Path.Combine(FileSystemConstants.PswmgrConfigFolder, "conf.json"));
-                MoveFile(Path.Combine(folderName, "keystore", "salus"), Path.Combine(FileSystemConstants.IpfsConfigFolder, "keystore", "salus"));
+                MoveFile(Path.Combine(folderName, "salus"), Path.Combine(FileSystemConstants.IpfsConfigFolder, "keystore", "salus"));
 
                 Directory.Delete(folderName, true);
 
