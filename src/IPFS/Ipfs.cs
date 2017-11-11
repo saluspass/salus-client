@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace Salus
 
         #region Methods
 
-        public static async Task<string> Add(string filename)
+        public static async Task<string> AddAsync(string filename)
         {
             if(!File.Exists(filename))
             {
@@ -45,16 +46,7 @@ namespace Salus
             return _FileListing;
         }
 
-        public static IpfsFileListing GetFileListing()
-        {
-            if (_FileListing == null)
-            {
-                _FileListing = IpfsFileListing.Load().Result;
-            }
-            return _FileListing;
-        }
-
-        public static async Task<string> Resolve(string name = null)
+        public static async Task<string> ResolveAsync(string name = null)
         {
             System.Threading.CancellationToken token = new System.Threading.CancellationToken();
             string json = await _Client.DoCommandAsync("name/resolve", token, name);

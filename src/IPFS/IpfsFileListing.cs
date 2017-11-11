@@ -49,10 +49,10 @@ namespace Salus
             IpfsFileListing returnValue = null;
             try
             {
-                string listingFileHash = await IpfsApi.Resolve();
+                string listingFileHash = await IpfsApi.ResolveAsync();
                 if(string.IsNullOrEmpty(listingFileHash))
                 {
-                    listingFileHash = await IpfsApi.Resolve();
+                    listingFileHash = await IpfsApi.ResolveAsync();
                 }
 
                 if (!string.IsNullOrEmpty(listingFileHash) && await IpfsApi.Get(listingFileHash, ListingFilename))
@@ -80,7 +80,7 @@ namespace Salus
 
         private async Task AddFileNotAlreadyExisting(string filename, object lockObject)
         {
-            string hashFilename = await IpfsApi.Add(filename);
+            string hashFilename = await IpfsApi.AddAsync(filename);
 
             IpfsFile file = new IpfsFile
             {
@@ -166,7 +166,7 @@ namespace Salus
                     writer.Write(JsonConvert.SerializeObject(this, Formatting.Indented));
                 }
 
-                string hashFilename = await IpfsApi.Add(ListingFilename);
+                string hashFilename = await IpfsApi.AddAsync(ListingFilename);
                 await IpfsApi.PublishAsync(hashFilename);
                 Dirty = false;
             }
