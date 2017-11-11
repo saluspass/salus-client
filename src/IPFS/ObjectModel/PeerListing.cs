@@ -61,7 +61,7 @@ namespace Salus
             PeerListing returnValue = new PeerListing();
             try
             {
-                string filenameHashIpnsEntry = await IpfsApiWrapper.Client.KeyApi().GetAdditionalInformation("salus");
+                string filenameHashIpnsEntry = await IpfsApiWrapper.GetAdditionalInformation("salus");
                 string listingFileHash = await IpfsApiWrapper.ResolveAsync(filenameHashIpnsEntry);
 
                 if (!string.IsNullOrEmpty(listingFileHash) && await IpfsApiWrapper.Get(listingFileHash, Path.Combine(FileSystemConstants.PswmgrConfigFolder, "peers.json")))
@@ -94,7 +94,7 @@ namespace Salus
                 }
 
                 string hashFilename = await IpfsApiWrapper.AddAsync(ListingFilename);
-                string filenameHashIpnsEntry = await IpfsApiWrapper.Client.KeyApi().GetAdditionalInformation("salus");
+                string filenameHashIpnsEntry = await IpfsApiWrapper.GetAdditionalInformation("salus");
                 await IpfsApiWrapper.PublishAsync(hashFilename, filenameHashIpnsEntry);
                 Dirty = false;
             }
@@ -102,7 +102,7 @@ namespace Salus
 
         private async Task Sync()
         {
-            _FilenameHash = await IpfsApiWrapper.Client.KeyApi().GetAdditionalInformation("salus");
+            _FilenameHash = await IpfsApiWrapper.GetAdditionalInformation("salus");
 
             string peerId = await IpfsApiWrapper.GetPeerId();
             if (!_Peers.Contains(peerId))

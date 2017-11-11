@@ -97,6 +97,11 @@ namespace Salus
             return await Client.NameApi().PublishAsync(hashFilename);
         }
 
+        internal static async Task<string> GetAdditionalInformation(string v)
+        {
+            return await Client.KeyApi().GetAdditionalInformation(v);
+        }
+
         /// <summary>
         /// This will publish a file hash to IPNS
         /// </summary>
