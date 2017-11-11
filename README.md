@@ -1,8 +1,8 @@
-# ipfs-pswmgr
+# Salus Pass Client
 
-![Release](https://img.shields.io/github/release/viperman1271/ipfs-pswmgr/all.svg)
+![Release](https://img.shields.io/github/release/saluspass/salus-client/all.svg)
 
-![Demo Image](https://github.com/viperman1271/ipfs-pswmgr/blob/master/images/Password_Manager_Demo.jpg)
+![Demo Image](https://github.com/saluspass/salus-client/blob/master/images/Password_Manager_Demo.jpg)
 
 Decentralized zero knowldge password storage application using RSA 2048 encryption to encrypt and store password details, propagating the data files via [IPFS](https://ipfs.io/).
 
@@ -41,7 +41,7 @@ This distribution includes cryptographic software. The country in which you curr
 Tested with Visual Studio 2017. Open ipfs-pswmgr.sln and build. Nuget packages should be restored automatically
 
 ## License
-The main license for this project is the MIT License - [LICENSE](https://github.com/viperman1271/ipfs-pswmgr/blob/master/LICENSE)
+The main license for this project is the MIT License - [LICENSE](https://github.com/saluspass/salus-client/blob/master/LICENSE)
 
 Dependencies have their own licenses, which can be viewed at the following;
 * [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md)
