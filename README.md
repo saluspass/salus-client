@@ -1,4 +1,4 @@
-# Salus Pass Client
+# ![Icon](https://github.com/saluspass/salus-client/blob/master/src/Resources/PasswordManagerIcon.png) Salus Pass Client
 
 ![Release](https://img.shields.io/github/release/saluspass/salus-client/all.svg)
 
