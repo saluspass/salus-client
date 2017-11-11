@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Ipfs.Api;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -20,13 +22,13 @@ namespace Salus
 
         private static IpfsFileListing _FileListing;
         private static Process _DaemonProcess;
-        private static readonly Lazy<Ipfs.Api.IpfsClient> _Client = new Lazy<Ipfs.Api.IpfsClient>();
+        private static readonly Lazy<IpfsClient> _Client = new Lazy<IpfsClient>();
 
         #endregion
 
         #region Properties
 
-        private static Ipfs.Api.IpfsClient Client
+        private static IpfsClient Client
         {
             get
             {
@@ -46,7 +48,7 @@ namespace Salus
                 return null;
             }
 
-            Ipfs.Api.FileSystemNode node = await Client.FileSystem.AddFileAsync(filename);
+            FileSystemNode node = await Client.FileSystem.AddFileAsync(filename);
             return node.Hash;
         }
 
@@ -64,7 +66,7 @@ namespace Salus
             System.Threading.CancellationToken token = new System.Threading.CancellationToken();
             string json = await Client.DoCommandAsync("name/resolve", token, name);
 
-            var jObject = Newtonsoft.Json.Linq.JObject.Parse(json);
+            JObject jObject = JObject.Parse(json);
             return jObject["Path"] != null ? jObject.Value<string>("Path").Substring(6) : null;
         }
 
@@ -72,7 +74,7 @@ namespace Salus
         {
             System.Threading.CancellationToken token = new System.Threading.CancellationToken();
             string json = await Client.UploadAsync("name/publish", token, Encoding.UTF8.GetBytes(hashFilename));
-            var jObject = Newtonsoft.Json.Linq.JObject.Parse(json);
+            JObject jObject = JObject.Parse(json);
             return jObject["Name"] != null && jObject["Value"] != null;
         }
 
@@ -85,6 +87,15 @@ namespace Salus
                 return true;
             }
             return false;
+        }
+
+        public static async Task<string> GetPeerId()
+        {
+            System.Threading.CancellationToken token = new System.Threading.CancellationToken();
+            string json = await Client.DoCommandAsync("id", token);
+            JObject obj = JsonConvert.DeserializeObject<JObject>(json);
+
+            return obj.Value<string>("ID");
         }
 
         public static void StartDaemon()
@@ -114,8 +125,8 @@ namespace Salus
             {
                 ExceptionUtilities.TryCatchIgnore(delegate
                 {
-                    var json = File.ReadAllText(filename);
-                    Newtonsoft.Json.Linq.JObject obj = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(json);
+                    string json = File.ReadAllText(filename);
+                    JObject obj = JsonConvert.DeserializeObject<JObject>(json);
                     int pid;
                     int.TryParse(obj["OwnerPID"].ToString(), out pid);
 
