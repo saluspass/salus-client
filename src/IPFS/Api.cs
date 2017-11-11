@@ -108,6 +108,10 @@ namespace Salus
             return false;
         }
 
+        /// <summary>
+        /// Requests the (normally) local Peer Id
+        /// </summary>
+        /// <returns>Peer Id from the API endpoint</returns>
         public static async Task<string> GetPeerId()
         {
             var peerNode = await Client.IdAsync();
