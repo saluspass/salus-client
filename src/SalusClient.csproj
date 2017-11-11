@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B7EC6EC7-1DC8-4227-A3EF-79BC0EBDFDB8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>SalusClient</RootNamespace>
+    <RootNamespace>Salus</RootNamespace>
     <AssemblyName>SalusClient</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
