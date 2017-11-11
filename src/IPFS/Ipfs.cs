@@ -20,7 +20,20 @@ namespace Salus
 
         private static IpfsFileListing _FileListing;
         private static Process _DaemonProcess;
-        private static readonly Ipfs.Api.IpfsClient _Client = new Ipfs.Api.IpfsClient();
+        private static readonly Lazy<Ipfs.Api.IpfsClient> _Client = new Lazy<Ipfs.Api.IpfsClient>();
+
+        #endregion
+
+        #region Properties
+
+        private static Ipfs.Api.IpfsClient Client
+        {
+            get
+            {
+                //Add any initialization configuration needed here
+                return _Client.Value;
+            }
+        }
 
         #endregion
 
@@ -33,7 +46,7 @@ namespace Salus
                 return null;
             }
 
-            Ipfs.Api.FileSystemNode node = await _Client.FileSystem.AddFileAsync(filename);
+            Ipfs.Api.FileSystemNode node = await Client.FileSystem.AddFileAsync(filename);
             return node.Hash;
         }
 
@@ -49,7 +62,7 @@ namespace Salus
         public static async Task<string> ResolveAsync(string name = null)
         {
             System.Threading.CancellationToken token = new System.Threading.CancellationToken();
-            string json = await _Client.DoCommandAsync("name/resolve", token, name);
+            string json = await Client.DoCommandAsync("name/resolve", token, name);
 
             var jObject = Newtonsoft.Json.Linq.JObject.Parse(json);
             return jObject["Path"] != null ? jObject.Value<string>("Path").Substring(6) : null;
@@ -58,14 +71,14 @@ namespace Salus
         public static async Task<bool> PublishAsync(string hashFilename)
         {
             System.Threading.CancellationToken token = new System.Threading.CancellationToken();
-            string json = await _Client.UploadAsync("name/publish", token, Encoding.UTF8.GetBytes(hashFilename));
+            string json = await Client.UploadAsync("name/publish", token, Encoding.UTF8.GetBytes(hashFilename));
             var jObject = Newtonsoft.Json.Linq.JObject.Parse(json);
             return jObject["Name"] != null && jObject["Value"] != null;
         }
 
         public static async Task<bool> Get(string hash, string filename)
         {
-            string content = await _Client.FileSystem.ReadAllTextAsync(hash);
+            string content = await Client.FileSystem.ReadAllTextAsync(hash);
             if (!string.IsNullOrEmpty(content))
             {
                 File.WriteAllText(filename, content);
