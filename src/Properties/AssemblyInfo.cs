@@ -7,11 +7,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ipfs-pswmgr")]
+[assembly: AssemblyTitle("Salus Client")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ipfs-pswmgr")]
+[assembly: AssemblyProduct("Salus Client")]
 [assembly: AssemblyCopyright("Copyright © Mike Filion 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
