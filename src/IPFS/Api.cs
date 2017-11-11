@@ -5,7 +5,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Salus
@@ -77,10 +76,7 @@ namespace Salus
         /// <returns>True if success</returns>
         public static async Task<bool> PublishAsync(string hashFilename)
         {
-            System.Threading.CancellationToken token = new System.Threading.CancellationToken();
-            string json = await Client.UploadAsync("name/publish", token, Encoding.UTF8.GetBytes(hashFilename));
-            JObject jObject = JObject.Parse(json);
-            return jObject["Name"] != null && jObject["Value"] != null;
+            return await Client.NameApi().PublishAsync(hashFilename);
         }
 
         /// <summary>
@@ -91,10 +87,7 @@ namespace Salus
         /// <returns>True if success</returns>
         public static async Task<bool> PublicAsync(string hashFilename, string ownerHash)
         {
-            System.Threading.CancellationToken token = new System.Threading.CancellationToken();
-            string json = await Client.UploadAsync("name/publish", token, Encoding.UTF8.GetBytes(hashFilename), $"key={ownerHash}");
-            JObject jObject = JObject.Parse(json);
-            return jObject["Name"] != null && jObject["Value"] != null;
+            return await Client.NameApi().PublishAsync(hashFilename, ownerHash);
         }
 
         public static async Task<bool> Get(string hash, string filename)
@@ -127,10 +120,7 @@ namespace Salus
         /// <returns></returns>
         public static async Task<bool> GenerateKeyPair(string keyName, string keyType = "rsa", int size = 2048)
         {
-            System.Threading.CancellationToken token = new System.Threading.CancellationToken();
-            string json = await Client.PostCommandAsync("key/gen", token, keyName, $"type={keyType}", $"size={size}");
-            JObject jObject = JObject.Parse(json);
-            return jObject["Name"] != null && jObject["Id"] != null;
+            return !string.IsNullOrEmpty(await Client.KeyApi().Generate(keyName, keyType, size));
         }
 
         public static void StartDaemon()
