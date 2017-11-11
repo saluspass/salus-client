@@ -123,9 +123,10 @@
     <Compile Include="Commands\NewPassword.cs" />
     <Compile Include="Commands\ShowOptions.cs" />
     <Compile Include="DataEventArgs.cs" />
-    <Compile Include="IPFS\Ipfs.cs" />
-    <Compile Include="IPFS\IpfsFile.cs" />
-    <Compile Include="IPFS\IpfsFileListing.cs" />
+    <Compile Include="IPFS\Api.cs" />
+    <Compile Include="IPFS\ObjectModel\File.cs" />
+    <Compile Include="IPFS\ObjectModel\FileListing.cs" />
+    <Compile Include="IPFS\ObjectModel\PeerListing.cs" />
     <Compile Include="ObjectModel\Conf.cs" />
     <Compile Include="ObjectModel\EncryptionKey.cs" />
     <Compile Include="ObjectModel\PasswordEntry.cs" />
