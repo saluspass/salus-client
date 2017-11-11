@@ -3,7 +3,7 @@
 namespace GitHub
 {
     /// <summary>
-    /// Generated using https://quicktype.io with the data received from https://api.github.com/repos/viperman1271/ipfs-pswmgr/releases
+    /// Generated using https://quicktype.io with the data received from https://api.github.com/repos/saluspass/salus-client/releases
     /// </summary>
     public partial class Release
     {

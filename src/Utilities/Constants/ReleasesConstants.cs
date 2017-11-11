@@ -2,6 +2,6 @@
 {
     public static class ReleasesConstants
     {
-        public static readonly string ApiEndpoint = "https://api.github.com/repos/viperman1271/ipfs-pswmgr/releases";
+        public static readonly string ApiEndpoint = "https://api.github.com/repos/saluspass/salus-client/releases";
     }
 }
