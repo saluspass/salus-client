@@ -124,6 +124,9 @@
     <Compile Include="Commands\ShowOptions.cs" />
     <Compile Include="DataEventArgs.cs" />
     <Compile Include="IPFS\Api.cs" />
+    <Compile Include="IPFS\ApiExtensions.cs" />
+    <Compile Include="IPFS\KeyApi.cs" />
+    <Compile Include="IPFS\NameApi.cs" />
     <Compile Include="IPFS\ObjectModel\File.cs" />
     <Compile Include="IPFS\ObjectModel\FileListing.cs" />
     <Compile Include="IPFS\ObjectModel\PeerListing.cs" />
