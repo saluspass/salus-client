@@ -143,6 +143,7 @@ namespace Salus
 
         protected void OnAccountConfigued()
         {
+            IpfsApiWrapper.StartDaemon();
             AccountConfigued?.Invoke(this, EventArgs.Empty);
         }
 
