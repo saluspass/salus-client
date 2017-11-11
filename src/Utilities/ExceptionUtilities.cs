@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     class ExceptionUtilities
     {

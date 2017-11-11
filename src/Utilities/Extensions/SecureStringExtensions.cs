@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     internal static class SecureStringExtensions
     {

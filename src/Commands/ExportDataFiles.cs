@@ -3,7 +3,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Windows;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     internal class ExportDataFilesCommand : AbstractCommand
     {

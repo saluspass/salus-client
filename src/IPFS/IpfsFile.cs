@@ -2,7 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class IpfsFile

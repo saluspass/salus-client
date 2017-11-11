@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     class OptionsViewModel
     {

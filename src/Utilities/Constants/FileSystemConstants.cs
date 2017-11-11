@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     public static class FileSystemConstants
     {

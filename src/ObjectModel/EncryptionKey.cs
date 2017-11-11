@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     public class EncryptionKey : IDisposable
     {

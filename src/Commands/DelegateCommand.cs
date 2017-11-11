@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     /// <summary>
     /// Originally taken from https://wpftutorial.net/DelegateCommand.html

@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     class NewPasswordViewModel : INotifyPropertyChanged
     {

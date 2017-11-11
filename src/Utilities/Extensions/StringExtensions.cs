@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ipfs_pswmgr.Utilities.Extensions
+namespace Salus.Utilities.Extensions
 {
     public static class StringExtensions
     {

@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class PasswordEntry : INotifyPropertyChanged, ISaveableObject

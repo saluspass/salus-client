@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     public static class IpfsApi
     {

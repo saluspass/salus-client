@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     internal class ShowOptionsCommand : AbstractCommand
     {

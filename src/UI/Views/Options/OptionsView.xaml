@@ -1,4 +1,4 @@
-﻿<Window x:Class="ipfs_pswmgr.OptionsView"
+﻿<Window x:Class="Salus.OptionsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:pg="clr-namespace:Xceed.Wpf.Toolkit.PropertyGrid;assembly=Xceed.Wpf.Toolkit"

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     internal sealed class Base32
     {

@@ -1,4 +1,4 @@
-﻿namespace ipfs_pswmgr
+﻿namespace Salus
 {
     internal class ExitCommand : AbstractCommand
     {

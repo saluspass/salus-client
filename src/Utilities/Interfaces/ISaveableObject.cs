@@ -1,4 +1,4 @@
-﻿namespace ipfs_pswmgr
+﻿namespace Salus
 {
     public interface ISaveableObject
     {

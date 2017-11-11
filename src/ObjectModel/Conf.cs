@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     [JsonObject(MemberSerialization.OptIn)]
     internal class Conf

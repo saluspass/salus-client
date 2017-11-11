@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Input;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     public class MainViewModel : INotifyPropertyChanged
     {

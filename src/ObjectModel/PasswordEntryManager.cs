@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     internal class PasswordEntryManager
     {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ipfs_pswmgr.Properties
+namespace Salus.Properties
 {
 
 

@@ -9,7 +9,7 @@ using System.Net;
 using System.Reflection;
 using System.Windows;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     internal class AutoUpdater
     {

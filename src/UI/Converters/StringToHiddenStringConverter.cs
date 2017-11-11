@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Text;
 using System.Windows.Data;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     class StringToHiddenStringConverter : IValueConverter
     {

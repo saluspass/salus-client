@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     internal class UpdateViewModel : INotifyPropertyChanged
     {

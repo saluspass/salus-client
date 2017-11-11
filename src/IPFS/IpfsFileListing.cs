@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class IpfsFileListing : ISaveableObject

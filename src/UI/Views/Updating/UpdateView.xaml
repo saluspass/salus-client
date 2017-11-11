@@ -1,4 +1,4 @@
-﻿<Window x:Class="ipfs_pswmgr.UpdateView"
+﻿<Window x:Class="Salus.UpdateView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Updating..." Height="150" Width="500" WindowStyle="ToolWindow" Closing="Window_Closing">

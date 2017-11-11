@@ -5,7 +5,7 @@ using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     /// <summary>
     ///  Copyright © 2000 JavaScience Consulting, Michel Gallant

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace ipfs_pswmgr
+namespace Salus
 {
     internal abstract class AbstractCommand : ICommand
     {
