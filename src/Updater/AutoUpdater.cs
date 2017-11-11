@@ -27,7 +27,7 @@ namespace ipfs_pswmgr
             }
 
             Version assemblyVersion = Assembly.GetEntryAssembly().GetName().Version;
-            SemVersion semAssemblyVersion = SemVersion.Parse($"{assemblyVersion.Major}.{assemblyVersion.Minor}.{assemblyVersion.MinorRevision}");
+            SemVersion semAssemblyVersion = SemVersion.Parse($"{assemblyVersion.Major}.{assemblyVersion.Minor}.{assemblyVersion.Build}");
 
             GitHub.Release bestRelease = null;
             SemVersion bestReleaseVersion = semAssemblyVersion;
