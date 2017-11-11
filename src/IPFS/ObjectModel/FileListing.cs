@@ -46,7 +46,8 @@ namespace Salus
 
         public static async Task<IpfsFileListing> Load()
         {
-            IpfsFileListing returnValue = null;
+            IpfsFileListing returnValue = new IpfsFileListing();
+            returnValue.Dirty = true;
             try
             {
                 string listingFileHash = await IpfsApiWrapper.ResolveAsync();
@@ -67,10 +68,6 @@ namespace Salus
             }
             catch
             {
-                if(returnValue == null)
-                {
-                    returnValue = new IpfsFileListing();
-                }
             }
 
             await returnValue.Sync();
