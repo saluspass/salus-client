@@ -20,6 +20,7 @@ namespace Salus
         #region Variables
 
         private static IpfsFileListing _FileListing;
+        private static PeerListing _PeerListing;
         private static Process _DaemonProcess;
         private static readonly Lazy<IpfsClient> _Client = new Lazy<IpfsClient>();
 
@@ -60,13 +61,30 @@ namespace Salus
             return _FileListing;
         }
 
+        public static async Task<PeerListing> GetPeerListingAsync()
+        {
+            if (_PeerListing == null)
+            {
+                _PeerListing = await PeerListing.Load();
+            }
+
+            return _PeerListing;
+        }
+
         public static async Task<string> ResolveAsync(string name = null)
         {
-            System.Threading.CancellationToken token = new System.Threading.CancellationToken();
-            string json = await Client.DoCommandAsync("name/resolve", token, name);
+            try
+            {
+                System.Threading.CancellationToken token = new System.Threading.CancellationToken();
+                string json = await Client.DoCommandAsync("name/resolve", token, name);
 
-            JObject jObject = JObject.Parse(json);
-            return jObject["Path"] != null ? jObject.Value<string>("Path").Substring(6) : null;
+                JObject jObject = JObject.Parse(json);
+                return jObject["Path"] != null ? jObject.Value<string>("Path").Substring(6) : null;
+            }
+            catch (System.Net.Http.HttpRequestException)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -85,7 +103,7 @@ namespace Salus
         /// <param name="hashFilename">Hash of the already uploaded file to publish</param>
         /// <param name="ownerHash">The peer id or key to use as the owner</param>
         /// <returns>True if success</returns>
-        public static async Task<bool> PublicAsync(string hashFilename, string ownerHash)
+        public static async Task<bool> PublishAsync(string hashFilename, string ownerHash)
         {
             return await Client.NameApi().PublishAsync(hashFilename, ownerHash);
         }
