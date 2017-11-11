@@ -43,7 +43,7 @@ namespace Salus
 
         private void OnApplicationStartup()
         {
-            ApiWrapper.StartDaemon();
+            IpfsApiWrapper.StartDaemon();
 
             AutoUpdater.Launch();
 
@@ -64,7 +64,7 @@ namespace Salus
 
         protected override void OnExit(ExitEventArgs e)
         {
-            ApiWrapper.StopDaemon();
+            IpfsApiWrapper.StopDaemon();
 
             base.OnExit(e);
         }
