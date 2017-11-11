@@ -153,7 +153,7 @@ namespace Salus
         private async void SyncIpfsListing()
         {
             Status = "Synching with Network...";
-            await IpfsApi.GetFileListingAsync();
+            await ApiWrapper.GetFileListingAsync();
             Status = "Up to date";
         }
 

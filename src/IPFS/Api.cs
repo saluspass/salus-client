@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Salus
 {
-    public static class IpfsApi
+    public static class ApiWrapper
     {
         #region Nested
 

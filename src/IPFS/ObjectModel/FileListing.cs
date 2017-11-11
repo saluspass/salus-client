@@ -49,13 +49,13 @@ namespace Salus
             IpfsFileListing returnValue = null;
             try
             {
-                string listingFileHash = await IpfsApi.ResolveAsync();
+                string listingFileHash = await ApiWrapper.ResolveAsync();
                 if(string.IsNullOrEmpty(listingFileHash))
                 {
-                    listingFileHash = await IpfsApi.ResolveAsync();
+                    listingFileHash = await ApiWrapper.ResolveAsync();
                 }
 
-                if (!string.IsNullOrEmpty(listingFileHash) && await IpfsApi.Get(listingFileHash, ListingFilename))
+                if (!string.IsNullOrEmpty(listingFileHash) && await ApiWrapper.Get(listingFileHash, ListingFilename))
                 {
                     using (StreamReader reader = new StreamReader(File.OpenRead(ListingFilename)))
                     {
@@ -80,7 +80,7 @@ namespace Salus
 
         private async Task AddFileNotAlreadyExisting(string filename, object lockObject)
         {
-            string hashFilename = await IpfsApi.AddAsync(filename);
+            string hashFilename = await ApiWrapper.AddAsync(filename);
 
             IpfsFile file = new IpfsFile
             {
@@ -139,7 +139,7 @@ namespace Salus
                 }
                 else
                 {
-                    await IpfsApi.Get(file.RemoteFilename, filename);
+                    await ApiWrapper.Get(file.RemoteFilename, filename);
                     PasswordEntryManager.Instance.AddEntry(PasswordEntry.Load(filename));
                 }
             });
@@ -166,8 +166,8 @@ namespace Salus
                     writer.Write(JsonConvert.SerializeObject(this, Formatting.Indented));
                 }
 
-                string hashFilename = await IpfsApi.AddAsync(ListingFilename);
-                await IpfsApi.PublishAsync(hashFilename);
+                string hashFilename = await ApiWrapper.AddAsync(ListingFilename);
+                await ApiWrapper.PublishAsync(hashFilename);
                 Dirty = false;
             }
         }
