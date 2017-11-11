@@ -44,19 +44,35 @@ namespace Salus
 
         #region Methods
 
+        private static async Task<IpfsFileListing> FetchListingFile(string listingFileHash, bool keep = false)
+        {
+            IpfsFileListing returnValue = null;
+            try
+            {
+                string localListingFilename = keep ? ListingFilename : Path.GetTempFileName();
+                if (!string.IsNullOrEmpty(listingFileHash) && await IpfsApiWrapper.Get(listingFileHash, localListingFilename))
+                {
+                    using (StreamReader reader = new StreamReader(File.OpenRead(localListingFilename)))
+                    {
+                        string json = reader.ReadToEnd();
+                        returnValue = JsonConvert.DeserializeObject<IpfsFileListing>(json);
+                    }
+                }
+            }
+            catch
+            {
+                //In case the peer's file hasn't yet been published to ipns
+            }
+            returnValue.Dirty = false;
+            return returnValue;
+        }
+
         public static async Task<IpfsFileListing> Load()
         {
             IpfsFileListing returnValue = new IpfsFileListing();
-            returnValue.Dirty = true;
             try
             {
-                string listingFileHash = await IpfsApiWrapper.ResolveAsync();
-                if(string.IsNullOrEmpty(listingFileHash))
-                {
-                    listingFileHash = await IpfsApiWrapper.ResolveAsync();
-                }
-
-                if (!string.IsNullOrEmpty(listingFileHash) && await IpfsApiWrapper.Get(listingFileHash, ListingFilename))
+                if(File.Exists(ListingFilename))
                 {
                     using (StreamReader reader = new StreamReader(File.OpenRead(ListingFilename)))
                     {
@@ -64,7 +80,26 @@ namespace Salus
                         returnValue = JsonConvert.DeserializeObject<IpfsFileListing>(json);
                     }
                 }
-                returnValue.Dirty = false;
+
+                string localPeerId = await IpfsApiWrapper.GetPeerId();
+
+                PeerListing peerListing = await IpfsApiWrapper.GetPeerListingAsync();
+                foreach (string peer in peerListing.Peers)
+                {
+                    IpfsFileListing peerFileListing = null;
+                    if (peer != localPeerId)
+                    {
+                        string listingFileHash = await IpfsApiWrapper.ResolveAsync(peer);
+                        peerFileListing = await FetchListingFile(listingFileHash, false);
+                    }
+                    else if(File.Exists(ListingFilename))
+                    {
+                        string listingFileHash = await IpfsApiWrapper.ResolveAsync();
+                        peerFileListing = await FetchListingFile(listingFileHash, true);
+                    }
+
+                    returnValue.MergeFile(peerFileListing);
+                }
             }
             catch
             {
@@ -97,6 +132,17 @@ namespace Salus
             IpfsFile file = _Files.First(o => o.LocalFilename == localFilename);
             if (file.ComputeHash(filename) != file.Hash)
             {
+                Dirty = true;
+                //TODO: Complete
+            }
+        }
+
+        private void ResolveConflict(IpfsFile remoteFile)
+        {
+            IpfsFile file = _Files.First(o => o.LocalFilename == remoteFile.LocalFilename);
+            if (file.Hash != remoteFile.Hash)
+            {
+                Dirty = true;
                 //TODO: Complete
             }
         }
@@ -166,6 +212,23 @@ namespace Salus
                 string hashFilename = await IpfsApiWrapper.AddAsync(ListingFilename);
                 await IpfsApiWrapper.PublishAsync(hashFilename);
                 Dirty = false;
+            }
+        }
+
+        private void MergeFile(IpfsFileListing other)
+        {
+            foreach(IpfsFile file in other._Files)
+            {
+                string mfLocalFilename = file.LocalFilename;
+                if (!_Files.Any(o => o.LocalFilename == mfLocalFilename))
+                {
+                    Dirty = true;
+                    _Files.Add(file);
+                }
+                else
+                {
+                    ResolveConflict(file);
+                }
             }
         }
 
