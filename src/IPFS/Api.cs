@@ -114,6 +114,21 @@ namespace Salus
             return peerNode.Id;
         }
 
+        /// <summary>
+        /// Will generate and store a new key pair in the local keystore
+        /// </summary>
+        /// <param name="keyName">Name of the key</param>
+        /// <param name="keyType">Type of the key to create (ex. rsa, ed25519)</param>
+        /// <param name="size">Size of the key to generate</param>
+        /// <returns></returns>
+        public static async Task<bool> GenerateKeyPair(string keyName, string keyType = "rsa", int size = 2048)
+        {
+            System.Threading.CancellationToken token = new System.Threading.CancellationToken();
+            string json = await Client.PostCommandAsync("key/gen", token, keyName, $"type={keyType}", $"size={size}");
+            JObject jObject = JObject.Parse(json);
+            return jObject["Name"] != null && jObject["Id"] != null;
+        }
+
         public static void StartDaemon()
         {
             CleanReproLock();

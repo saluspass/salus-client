@@ -3,7 +3,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Input;
 
@@ -35,6 +34,9 @@ namespace Salus
             if (!Directory.Exists(FileSystemConstants.PswmgrConfigFolder))
                 return false;
 
+            if (!File.Exists(Path.Combine(FileSystemConstants.IpfsConfigFolder, "keystore", "salus")))
+                return false;
+
             EncryptionKey key = EncryptionKey.Load();
             if(key == null)
             {
@@ -47,15 +49,35 @@ namespace Salus
             return true;
         }
 
-        private void OnNewAccount()
+        private async void OnNewAccount()
         {
-            InitIfps();
-
-            using (EncryptionKey key = EncryptionKey.Generate())
+            if (!Directory.Exists(FileSystemConstants.IpfsConfigFolder))
             {
-                key.Export();
+                InitIfps();
             }
-            OnAccountConfigued();
+
+            if (!File.Exists(Path.Combine(FileSystemConstants.PswmgrConfigFolder, "private.pem")))
+            {
+                using (EncryptionKey key = EncryptionKey.Generate())
+                {
+                    key.Export();
+                }
+            }
+
+            if (!File.Exists(Path.Combine(FileSystemConstants.IpfsConfigFolder, "keystore", "salus")))
+            {
+                await IpfsApiWrapper.GenerateKeyPair("salus");
+            }
+
+            if (WasCompleted())
+            {
+                MessageBox.Show("Creation successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                OnAccountConfigued();
+            }
+            else
+            {
+                MessageBox.Show("There was an error creating the necessary files", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void OnImportExisting()
@@ -78,7 +100,7 @@ namespace Salus
                 MoveFile(Path.Combine(folderName, "public.pem"), Path.Combine(FileSystemConstants.PswmgrConfigFolder, "public.pem"));
                 MoveFile(Path.Combine(folderName, "private.pem"), Path.Combine(FileSystemConstants.PswmgrConfigFolder, "private.pem"));
                 MoveFile(Path.Combine(folderName, "conf.json"), Path.Combine(FileSystemConstants.PswmgrConfigFolder, "conf.json"));
-                MoveFile(Path.Combine(folderName, "config"), Path.Combine(FileSystemConstants.IpfsConfigFolder, "config"));
+                MoveFile(Path.Combine(folderName, "keystore", "salus"), Path.Combine(FileSystemConstants.IpfsConfigFolder, "keystore", "salus"));
 
                 Directory.Delete(folderName, true);
 
