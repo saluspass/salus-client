@@ -70,10 +70,29 @@ namespace Salus
             return jObject["Path"] != null ? jObject.Value<string>("Path").Substring(6) : null;
         }
 
+        /// <summary>
+        /// This will publish a file hash to IPNS
+        /// </summary>
+        /// <param name="hashFilename">Hash of the already uploaded file to publish</param>
+        /// <returns>True if success</returns>
         public static async Task<bool> PublishAsync(string hashFilename)
         {
             System.Threading.CancellationToken token = new System.Threading.CancellationToken();
             string json = await Client.UploadAsync("name/publish", token, Encoding.UTF8.GetBytes(hashFilename));
+            JObject jObject = JObject.Parse(json);
+            return jObject["Name"] != null && jObject["Value"] != null;
+        }
+
+        /// <summary>
+        /// This will publish a file hash to IPNS
+        /// </summary>
+        /// <param name="hashFilename">Hash of the already uploaded file to publish</param>
+        /// <param name="ownerHash">The peer id or key to use as the owner</param>
+        /// <returns>True if success</returns>
+        public static async Task<bool> PublicAsync(string hashFilename, string ownerHash)
+        {
+            System.Threading.CancellationToken token = new System.Threading.CancellationToken();
+            string json = await Client.UploadAsync("name/publish", token, Encoding.UTF8.GetBytes(hashFilename), $"key={ownerHash}");
             JObject jObject = JObject.Parse(json);
             return jObject["Name"] != null && jObject["Value"] != null;
         }
@@ -91,11 +110,8 @@ namespace Salus
 
         public static async Task<string> GetPeerId()
         {
-            System.Threading.CancellationToken token = new System.Threading.CancellationToken();
-            string json = await Client.DoCommandAsync("id", token);
-            JObject obj = JsonConvert.DeserializeObject<JObject>(json);
-
-            return obj.Value<string>("ID");
+            var peerNode = await Client.IdAsync();
+            return peerNode.Id;
         }
 
         public static void StartDaemon()
