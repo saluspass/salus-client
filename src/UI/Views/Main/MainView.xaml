@@ -5,7 +5,7 @@
         Title="Salus" 
         Height="350" 
         Width="525"
-        Icon="/ipfs-pswmgr;component/Resources/PasswordManagerIcon.ico" 
+        Icon="/SalusClient;component/Resources/PasswordManagerIcon.ico" 
         WindowStartupLocation="CenterScreen" IsVisibleChanged="Window_IsVisibleChanged">
     <Grid>
         <Grid.RowDefinitions>
@@ -20,35 +20,35 @@
             <MenuItem Header="File">
                 <MenuItem Header="New" Command="{Binding AddPassword}">
                     <MenuItem.Icon>
-                        <Image Source="/ipfs-pswmgr;component/Resources/NewDocument.ico"/>
+                        <Image Source="/SalusClient;component/Resources/NewDocument.ico"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Options" Command="{Binding ShowOptions}">
                     <MenuItem.Icon>
-                        <Image Source="/ipfs-pswmgr;component/Resources/Options.ico"/>
+                        <Image Source="/SalusClient;component/Resources/Options.ico"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Refresh" Command="{Binding RefreshPasswords}">
                     <MenuItem.Icon>
-                        <Image Source="/ipfs-pswmgr;component/Resources/Refresh.ico"/>
+                        <Image Source="/SalusClient;component/Resources/Refresh.ico"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator/>
                 <MenuItem Header="Exit" Command="{Binding Exit}">
                     <MenuItem.Icon>
-                        <Image Source="/ipfs-pswmgr;component/Resources/Exit.ico"/>
+                        <Image Source="/SalusClient;component/Resources/Exit.ico"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Tools">
                 <MenuItem Header="Generate Password" Command="{Binding GeneratePassword}">
                     <MenuItem.Icon>
-                        <Image Source="/ipfs-pswmgr;component/Resources/Tool.ico"/>
+                        <Image Source="/SalusClient;component/Resources/Tool.ico"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Backup Data Files" Command="{Binding ExportDataFiles}">
                     <MenuItem.Icon>
-                        <Image Source="/ipfs-pswmgr;component/Resources/Export.ico"/>
+                        <Image Source="/SalusClient;component/Resources/Export.ico"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>

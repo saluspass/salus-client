@@ -329,7 +329,7 @@ namespace Salus
                     });
                 }
             }
-            return new BitmapImage(new Uri("/ipfs-pswmgr;component/Resources/PasswordManagerIcon.ico", UriKind.RelativeOrAbsolute));
+            return new BitmapImage(new Uri("/SalusClient;component/Resources/PasswordManagerIcon.ico", UriKind.RelativeOrAbsolute));
         }
 
         private void DownloadFile(string value, string file)
