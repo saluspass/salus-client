@@ -148,6 +148,9 @@ namespace Salus
 
         public static void StartDaemon()
         {
+            if (Process.GetProcessesByName("ipfs").Any())
+                return;
+
             CleanReproLock();
 
             _DaemonProcess = new Process();
