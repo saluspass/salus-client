@@ -13,5 +13,10 @@ namespace Salus
         {
             return new NameApi(client);
         }
+
+        public static BootstrapApi BootstrapApi(this IpfsClient client)
+        {
+            return new BootstrapApi(client);
+        }
     }
 }

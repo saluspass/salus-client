@@ -26,6 +26,9 @@ namespace Ipfs.Api
         /// <param name="size">
         ///     Size of the key to generate
         /// </param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
         public async Task<string> Generate(string keyName, string keyType = "rsa", int size = 2048, CancellationToken cancel = default(CancellationToken))
         {
             string json = await ipfs.PostCommandAsync("key/gen", cancel, keyName, $"type={keyType}", $"size={size}");
@@ -38,6 +41,9 @@ namespace Ipfs.Api
         /// </summary>
         /// <param name="keyName">
         ///     The key who's public hash to obtain
+        /// </param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
         /// </param>
         public async Task<string> GetAdditionalInformation(string keyName, CancellationToken cancel = default(CancellationToken))
         {

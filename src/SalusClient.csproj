@@ -125,10 +125,12 @@
     <Compile Include="DataEventArgs.cs" />
     <Compile Include="IPFS\Api.cs" />
     <Compile Include="IPFS\ApiExtensions.cs" />
+    <Compile Include="IPFS\BootstrapApi.cs" />
     <Compile Include="IPFS\KeyApi.cs" />
     <Compile Include="IPFS\NameApi.cs" />
     <Compile Include="IPFS\ObjectModel\File.cs" />
     <Compile Include="IPFS\ObjectModel\FileListing.cs" />
+    <Compile Include="IPFS\ObjectModel\Peer.cs" />
     <Compile Include="IPFS\ObjectModel\PeerListing.cs" />
     <Compile Include="ObjectModel\Conf.cs" />
     <Compile Include="ObjectModel\EncryptionKey.cs" />
