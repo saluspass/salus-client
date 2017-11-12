@@ -75,11 +75,7 @@ namespace Salus
         {
             try
             {
-                System.Threading.CancellationToken token = new System.Threading.CancellationToken();
-                string json = await Client.DoCommandAsync("name/resolve", token, name);
-
-                JObject jObject = JObject.Parse(json);
-                return jObject["Path"] != null ? jObject.Value<string>("Path").Substring(6) : null;
+                return await Client.NameApi().ResolveAsync(name);
             }
             catch (System.Net.Http.HttpRequestException)
             {

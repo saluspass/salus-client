@@ -5,6 +5,12 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Api
 {
+    /// <summary>
+    ///   Helps resolve information from ipns
+    /// </summary>
+    /// <remarks>
+    ///   This API is accessed via the <see cref="IpfsClient.Name"/> property.
+    /// </remarks>
     public class NameApi
     {
         IpfsClient ipfs;
@@ -15,9 +21,32 @@ namespace Ipfs.Api
         }
 
         /// <summary>
+        ///   Will resolve the ipfs path for the ipns entry passed in hash
+        /// </summary>
+        /// <param name="hash">
+        ///   The <see cref="string"/> representation of a ipns entry
+        /// </param>
+        /// <param name="cancel"></param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
+        public async Task<string> ResolveAsync(string hash = null, CancellationToken cancel = default(CancellationToken))
+        {
+            string json = await ipfs.DoCommandAsync("name/resolve", cancel, hash);
+
+            JObject jObject = JObject.Parse(json);
+            return jObject.Value<string>("Path");
+        }
+
+        /// <summary>
         /// This will publish a file hash to IPNS
         /// </summary>
-        /// <param name="hashFilename">Hash of the already uploaded file to publish</param>
+        /// <param name="hashFilename">
+        ///   Hash of the already uploaded file to publish
+        /// </param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
         /// <returns>True if success</returns>
         public async Task<bool> PublishAsync(string hashFilename, CancellationToken cancel = default(CancellationToken))
         {
@@ -27,7 +56,12 @@ namespace Ipfs.Api
         /// <summary>
         /// This will publish a file hash to IPNS
         /// </summary>
-        /// <param name="hashFilename">Hash of the already uploaded file to publish</param>
+        /// <param name="hashFilename">
+        ///   Hash of the already uploaded file to publish
+        /// </param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
         /// <returns>True if success</returns>
         public async Task<bool> PublishAsync(byte[] hashFilename, CancellationToken cancel = default(CancellationToken))
         {
@@ -39,8 +73,15 @@ namespace Ipfs.Api
         /// <summary>
         /// This will publish a file hash to IPNS
         /// </summary>
-        /// <param name="hashFilename">Hash of the already uploaded file to publish</param>
-        /// <param name="ownerHash">The peer id or key to use as the owner</param>
+        /// <param name="hashFilename">
+        ///   Hash of the already uploaded file to publish
+        /// </param>
+        /// <param name="ownerHash">
+        ///   The peer id or key to use as the owner
+        /// </param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
         /// <returns>True if success</returns>
         public async Task<bool> PublishAsync(string hashFilename, string ownerHash, CancellationToken cancel = default(CancellationToken))
         {
@@ -50,8 +91,15 @@ namespace Ipfs.Api
         /// <summary>
         /// This will publish a file hash to IPNS
         /// </summary>
-        /// <param name="hashFilename">Hash of the already uploaded file to publish</param>
-        /// <param name="ownerHash">The peer id or key to use as the owner</param>
+        /// <param name="hashFilename">
+        ///   Hash of the already uploaded file to publish
+        /// </param>
+        /// <param name="ownerHash">
+        ///   The peer id or key to use as the owner
+        /// </param>
+        /// <param name="cancel">
+        ///   Is used to stop the task.  When cancelled, the <see cref="TaskCanceledException"/> is raised.
+        /// </param>
         /// <returns>True if success</returns>
         public async Task<bool> PublishAsync(byte[] hashFilename, string ownerHash, CancellationToken cancel = default(CancellationToken))
         {
