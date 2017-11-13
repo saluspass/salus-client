@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -140,6 +141,11 @@ namespace Salus
         public static async Task<bool> GenerateKeyPair(string keyName, string keyType = "rsa", int size = 2048)
         {
             return !string.IsNullOrEmpty(await Client.KeyApi().Generate(keyName, keyType, size));
+        }
+
+        public static async Task AddPeer(Peer peer)
+        {
+            await Client.BootstrapApi().AddPeer(peer);
         }
 
         public static void StartDaemon()

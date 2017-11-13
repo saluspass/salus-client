@@ -63,7 +63,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Salus.snk</AssemblyOriginatorKeyFile>
@@ -154,6 +154,7 @@
     <Compile Include="Commands\ExportDataFiles.cs" />
     <Compile Include="Commands\NewPassword.cs" />
     <Compile Include="Commands\ShowOptions.cs" />
+    <Compile Include="IPFS\ObjectModel\BootstrapServers.cs" />
     <Compile Include="ObjectModel\DataEventArgs.cs" />
     <Compile Include="IPFS\Api.cs" />
     <Compile Include="IPFS\ApiExtensions.cs" />

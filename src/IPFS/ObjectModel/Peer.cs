@@ -1,11 +1,15 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 
 namespace Ipfs.Api
 {
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class Peer
     {
+        #region Nested
+
         public enum AddressType
         {
             DnsAddr,
@@ -13,9 +17,17 @@ namespace Ipfs.Api
             IP6
         }
 
+        #endregion
+
+        #region Variables
+
         private AddressType _RemoteAddressType;
         private string _RemoteAddress;
         private string _RemotePeerId;
+
+        #endregion
+
+        #region Ctor
 
         public Peer(AddressType addrType, string remoteAddr, string remotePeerId)
         {
@@ -24,6 +36,34 @@ namespace Ipfs.Api
             _RemotePeerId = remotePeerId;
         }
 
+        #endregion
+
+        #region Properties
+
+        [JsonProperty]
+        public AddressType RemoteAddressType
+        {
+            get { return _RemoteAddressType; }
+            set { _RemoteAddressType = value; }
+        }
+
+        [JsonProperty]
+        public string RemoteAddress
+        {
+            get { return _RemoteAddress; }
+            set { _RemoteAddress = value; }
+        }
+
+        [JsonProperty]
+        public string RemotePeerId
+        {
+            get { return _RemotePeerId; }
+            set { _RemotePeerId = value; }
+        }
+
+        #endregion
+
+        #region Methods
 
         public static Peer Create(JToken jObject)
         {
@@ -38,5 +78,7 @@ namespace Ipfs.Api
         {
             return $"/{_RemoteAddressType.ToString().ToLower()}/{_RemoteAddress}/ipfs/{_RemotePeerId}";
         }
+
+        #endregion
     }
 }

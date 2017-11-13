@@ -45,6 +45,8 @@ namespace Salus
         {
             IpfsApiWrapper.StartDaemon();
 
+            SetupBootstrapServers();
+
             AutoUpdater.Launch();
 
             MainWindow mainWindow = new MainWindow();
@@ -60,6 +62,12 @@ namespace Salus
             }
 
             mainWindow?.Show();
+        }
+
+        private async void SetupBootstrapServers()
+        {
+            BootstrapServers instance = await BootstrapServers.Instance();
+            await instance.Install();
         }
 
         protected override void OnExit(ExitEventArgs e)
