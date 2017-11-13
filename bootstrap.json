@@ -1,0 +1,14 @@
+{
+  "Servers": [
+    {
+      "RemoteAddressType": 1,
+      "RemoteAddress": "104.168.151.129",
+      "RemotePeerId": "QmVzt25bqdesuhJGuvikwue7pCnzyNKAHau7g7aeqLe5qB"
+    },
+    {
+      "RemoteAddressType": 1,
+      "RemoteAddress": "192.3.239.247",
+      "RemotePeerId": "QmWh94V76QkYvUNp93v6xjkdx9HQZk5kkfrcpSH2JCZNz6"
+    }
+  ]
+}
