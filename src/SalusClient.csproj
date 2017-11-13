@@ -274,9 +274,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>del $(TargetDir)*.xml
-del $(TargetDir)*.pdb
-del $(TargetDir)*.config
-powershell Compress-Archive -Path $(TargetDir)* -DestinationPath $(TargetDir)..\salus-win64-0.1.4.zip</PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName) == Publish del $(TargetDir)*.xml
+if $(ConfigurationName) == Publish del $(TargetDir)*.pdb
+if $(ConfigurationName) == Publish del $(TargetDir)*.config
+if $(ConfigurationName) == Publish powershell Compress-Archive -Path $(TargetDir)* -DestinationPath $(TargetDir)..\salus-win64-0.1.4.zip</PostBuildEvent>
   </PropertyGroup>
 </Project>
