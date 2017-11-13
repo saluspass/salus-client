@@ -154,7 +154,7 @@
     <Compile Include="Commands\ExportDataFiles.cs" />
     <Compile Include="Commands\NewPassword.cs" />
     <Compile Include="Commands\ShowOptions.cs" />
-    <Compile Include="DataEventArgs.cs" />
+    <Compile Include="ObjectModel\DataEventArgs.cs" />
     <Compile Include="IPFS\Api.cs" />
     <Compile Include="IPFS\ApiExtensions.cs" />
     <Compile Include="IPFS\BootstrapApi.cs" />
