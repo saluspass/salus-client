@@ -130,7 +130,7 @@ namespace Salus
             string configPath = Path.Combine(FileSystemConstants.IpfsConfigFolder, "config");
             string json = File.ReadAllText(configPath);
             JObject jObject = JObject.Parse(json);
-            return null;
+            return jObject["Identity"].Value<string>("PeerID");
         }
 
         /// <summary>
