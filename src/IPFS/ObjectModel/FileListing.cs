@@ -81,7 +81,7 @@ namespace Salus
                     }
                 }
 
-                string localPeerId = await IpfsApiWrapper.GetPeerId();
+                string localPeerId = IpfsApiWrapper.GetPeerId();
 
                 PeerListing peerListing = await IpfsApiWrapper.GetPeerListingAsync();
                 foreach (string peer in peerListing.Peers)

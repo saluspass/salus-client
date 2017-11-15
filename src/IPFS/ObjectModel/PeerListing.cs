@@ -104,7 +104,7 @@ namespace Salus
         {
             _FilenameHash = await IpfsApiWrapper.GetAdditionalInformation("salus");
 
-            string peerId = await IpfsApiWrapper.GetPeerId();
+            string peerId = IpfsApiWrapper.GetPeerId();
             if (!_Peers.Contains(peerId))
             {
                 _Peers.Add(peerId);
