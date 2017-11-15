@@ -41,7 +41,11 @@ namespace Salus
         {
             if (str.ConvertToUnsecureString() != strNewValue)
             {
-                str = strNewValue.ConvertToSecureString();
+                str.Clear();
+                foreach(char c in strNewValue)
+                {
+                    str.AppendChar(c);
+                }
                 parent.Dirty = true;
             }
         }
