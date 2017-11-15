@@ -125,10 +125,12 @@ namespace Salus
         /// Requests the (normally) local Peer Id
         /// </summary>
         /// <returns>Peer Id from the API endpoint</returns>
-        public static async Task<string> GetPeerId()
+        public static string GetPeerId()
         {
-            var peerNode = await Client.IdAsync();
-            return peerNode.Id;
+            string configPath = Path.Combine(FileSystemConstants.IpfsConfigFolder, "config");
+            string json = File.ReadAllText(configPath);
+            JObject jObject = JObject.Parse(json);
+            return null;
         }
 
         /// <summary>
