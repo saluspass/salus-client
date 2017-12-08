@@ -40,6 +40,7 @@ namespace Salus
             var result = _MainViewModel.AddNewPassword(entry);
             if (result)
             {
+                entry.Save();
                 MessageBox.Show(_View, "Added password successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
