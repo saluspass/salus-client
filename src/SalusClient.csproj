@@ -170,6 +170,7 @@
     <Compile Include="ObjectModel\EncryptionKey.cs" />
     <Compile Include="ObjectModel\PasswordEntry.cs" />
     <Compile Include="ObjectModel\PasswordEntryManager.cs" />
+    <Compile Include="Rest\RestServer.cs" />
     <Compile Include="UI\Views\Updating\UpdateViewModel.cs" />
     <Compile Include="UI\Views\Updating\UpdateView.xaml.cs">
       <DependentUpon>UpdateView.xaml</DependentUpon>
