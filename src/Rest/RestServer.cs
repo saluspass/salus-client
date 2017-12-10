@@ -1,5 +1,10 @@
 ﻿using Microsoft.Owin.Hosting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using Owin;
+using System.Collections.Generic;
+using System.Net.Http.Formatting;
 using System.Web.Http;
 
 namespace Salus
@@ -29,10 +34,28 @@ namespace Salus
         public void Configuration(IAppBuilder builder)
         {
             var config = new HttpConfiguration();
+            var defaultSettings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Converters = new List<JsonConverter>
+                {
+                    new StringEnumConverter{ CamelCaseText = true },
+                }
+            };
+
+            JsonConvert.DefaultSettings = () => { return defaultSettings; };
+
+            config.Formatters.Clear();
+            config.Formatters.Add(new JsonMediaTypeFormatter());
+            config.Formatters.JsonFormatter.SerializerSettings = defaultSettings;
+
             config.Routes.MapHttpRoute(
                 "API Default",
-                "api/{controller}/{action}/{id}",
+                "{controller}/{action}/{id}",
                 new { id = RouteParameter.Optional });
+            config.MapHttpAttributeRoutes();
+
             builder.UseWebApi(config);
         }
     }
