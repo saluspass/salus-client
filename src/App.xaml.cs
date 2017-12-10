@@ -44,8 +44,10 @@ namespace Salus
         private void OnApplicationStartup()
         {
             IpfsApiWrapper.StartDaemon();
-
             SetupBootstrapServers();
+
+            RestServer a = new RestServer();
+            a.Start();
 
             AutoUpdater.Launch();
 

@@ -1,94 +1,39 @@
-﻿/*using System;
+﻿using Microsoft.Owin.Hosting;
 using Owin;
 using System.Web.Http;
-using System.Web.Http.Owin;
-using Microsoft.Owin.Hosting;
 
 namespace Salus
 {
-    public class MyWebSomethingAPIController : ApiController
+    public class RestServer
     {
-        [AcceptVerbs("GET")]
-        public string Help()
+        /// <summary>
+        /// Exposed to starts server using WebApp class which uses OWIN specs.
+        /// </summary>
+        public void Start()
         {
-            return "This is test WEB API. Supported methods are ../api/MyWebAPI/Help, ../api/MyWebAPI/Square/{number}";
-        }
-        [AcceptVerbs("GET")]
-        public int Square(int id)
-        {
-            return id * id;
+            WebApp.Start<RestServerImpl>("http://localhost:60064");
         }
     }
 
-    class RestServer : ApiController
+    internal class RestServerImpl
     {
-        #region Constants
-
-        private static readonly Uri _baseAddress = new Uri("http://localhost:60064/");
-        private const string baseAddress = "http://localhost:60064/";
-
-        #endregion
-
-        public static void Start()
+        /// <summary>
+        /// Method to configure the App to define route and use WebApi
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <remarks>The name of the method should be Configuration and needs to be public.Else there will be exception
+        /// A first chance exception of type 'System.EntryPointNotFoundException' occurred in Microsoft.Owin.Hosting.dll
+        /// The following errors occurred while attempting to load the app.
+        /// - No 'Configuration' method was found in class 'Console45.MyOWINServer, Console45, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+        ///</remarks>
+        public void Configuration(IAppBuilder builder)
         {
-            WebApp.Start<RestServer>(baseAddress);
-
-            /*ms_Instance = new RestServer();
-            ms_Instance.Run();* /
-        }
-
-        // This code configures Web API. The Startup class is specified as a type
-        // parameter in the WebApp.Start method.
-        public new void Configuration(IAppBuilder appBuilder)
-        {
-            // Configure Web API for self-host. 
-            HttpConfiguration config = new HttpConfiguration();
+            var config = new HttpConfiguration();
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
-
-            appBuilder.UseWebApi(config);
-        }
-
-        [AcceptVerbs("GET")]
-        public string Help()
-        {
-            return "This is test WEB API. Supported methods are ../api/MyWebAPI/Help, ../api/MyWebAPI/Square/{number}";
-        }
-
-        /*        public void Configuration(IAppBuilder builder)
-                {
-                    var config = new HttpConfiguration();
-                    config.Routes.MapHttpRoute(
-                        "API Default",
-                        "api/{controller}/{action}/{id}",
-                        new { id = RouteParameter.Optional });
-                    builder.UseWebApi(config);
-                }* /
-
-        private void Run()
-        {
-
-            
-            // Set up server configuration
-            /*HttpSelfHostConfiguration config = new HttpSelfHostConfiguration(_baseAddress);
-            config.Routes.MapHttpRoute(
-              name: "DefaultApi",
-              routeTemplate: "api/{controller}/{id}",
-              defaults: new { id = RouteParameter.Optional }
-            );
-
-
-
-            // Create server
-            var server = new HttpSelfHostServer(config);
-            // Start listening
-            server.OpenAsync().Wait();
-            Console.WriteLine("Web API Self hosted on " + _baseAddress + " Hit ENTER to exit...");
-            Console.ReadLine();
-            server.CloseAsync().Wait();* /
+                "API Default",
+                "api/{controller}/{action}/{id}",
+                new { id = RouteParameter.Optional });
+            builder.UseWebApi(config);
         }
     }
-}*/
+}
