@@ -85,14 +85,14 @@ namespace Salus
                 string localPeerId = IpfsApiWrapper.GetPeerId();
 
                 //Validate that the local file matches the remote file
-                {
+                /*{
                     string listingFileHash = await IpfsApiWrapper.ResolveAsync(localPeerId);
                     IpfsFileListing remoteFileListing = await FetchListingFile(listingFileHash, false);
                     if (remoteFileListing != returnValue)
                     {
                         returnValue.Dirty = true;
                     }
-                }
+                }*/
 
                 PeerListing peerListing = await IpfsApiWrapper.GetPeerListingAsync();
                 foreach (string peer in peerListing.Peers)
