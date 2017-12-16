@@ -144,6 +144,11 @@ namespace Salus
             get { return new ExportDataFilesCommand(_View); }
         }
 
+        public ICommand Verbose
+        {
+            get { return new DelegateCommand(ShowVerboseInfo); }
+        }
+
         #endregion
 
         #endregion
@@ -352,6 +357,19 @@ namespace Salus
                 _Model.FinishedLoading += Instance_FinishedLoading;
                 _Model.LoadPasswords();
             }
+        }
+
+        private void ShowVerboseInfo()
+        {
+            if (_SelectedPasswordIndex == -1)
+            {
+                MessageBox.Show(_View, "No selected password", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            PasswordEntry entry = _Passwords[_SelectedPasswordIndex];
+            VerboseView view = new VerboseView(entry);
+            view.ShowDialog();
         }
 
         #endregion

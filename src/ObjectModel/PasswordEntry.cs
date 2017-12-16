@@ -211,6 +211,11 @@ namespace Salus
             }
         }
 
+        public string NameHash
+        {
+            get { return Base32.ToBase32String(SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(Name))); }
+        }
+
         #endregion
 
         #region Methods
@@ -221,7 +226,7 @@ namespace Salus
 
             if (Dirty)
             {
-                string filename = Path.ChangeExtension(Base32.ToBase32String(SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(Name))), ".json");
+                string filename = Path.ChangeExtension(NameHash, ".json");
                 using (StreamWriter writer = new StreamWriter(Path.Combine(FileSystemConstants.PswmgrDataFolder, filename)))
                 {
                     writer.Write(JsonConvert.SerializeObject(this, Formatting.Indented));

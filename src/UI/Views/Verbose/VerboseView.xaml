@@ -1,0 +1,39 @@
+﻿<Window x:Class="Salus.VerboseView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Verbose Info" Height="125" Width="550">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="5"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="1" Grid.Row="1" Text="Account Name"/>
+        <TextBlock Grid.Column="3" Grid.Row="1" Text="{Binding Name}"/>
+        
+        <TextBlock Grid.Column="1" Grid.Row="2" Text="Filename"/>
+        <TextBlock Grid.Column="3" Grid.Row="2" Text="{Binding NameHash}" ToolTip="{Binding NameHash}"/>
+
+        <TextBlock Grid.Column="1" Grid.Row="3" Text="Encrypted Name"/>
+        <TextBlock Grid.Column="3" Grid.Row="3" Text="{Binding EncryptedName}" ToolTip="{Binding EncryptedName}"/>
+
+        <Grid Grid.Row="5" Grid.Column="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="75"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" Command="{Binding OkCommand}" Content="OK"/>
+        </Grid>
+    </Grid>
+</Window>

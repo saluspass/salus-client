@@ -67,11 +67,13 @@
         <ListView Grid.Row="2" ItemsSource="{Binding Passwords}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" SelectedIndex="{Binding SelectedPasswordIndex}" SelectionMode="Single">
             <ListView.Resources>
                 <local:StringToHiddenStringConverter x:Key="StringConverter"/>
+                <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
                 <ContextMenu x:Key="ItemContextMenu">
                     <MenuItem Header="Copy Password" Command="{Binding Path=DataContext.Copy, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView}}"/>
                     <Separator/>
                     <MenuItem Header="Delete" Command="{Binding Path=DataContext.Delete, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView}}"/>
                     <MenuItem Header="Modify" Command="{Binding Path=DataContext.Modify, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView}}"/>
+                    <MenuItem Header="Verbose Info..." Command="{Binding Path=DataContext.Verbose, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView}}" Visibility="{Binding Source={x:Static local:App.Instance}, Path=Conf.VerboseInformation, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     <Separator/>
                     <MenuItem Header="Show">
                         <MenuItem Header="For 5 Seconds"/>

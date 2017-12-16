@@ -1,17 +1,21 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel;
 using System.IO;
 
 namespace Salus
 {
     [JsonObject(MemberSerialization.OptIn)]
-    internal class Conf
+    public class Conf
     {
         #region Ctor
+
+        bool _VerboseInfo;
 
         public Conf()
         {
             CheckForUpdates = true;
             RandomPasswordCharacterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()!@#$%&*:;/";
+            VerboseInformation = false;
         }
 
         ~Conf()
@@ -24,6 +28,8 @@ namespace Salus
         #region Properties
     
         [JsonProperty]
+        [DisplayName("Check for Updates")]
+        [Description("Whether to check for updates from GitHub.")]
         public bool CheckForUpdates
         {
             get;
@@ -31,10 +37,21 @@ namespace Salus
         }
 
         [JsonProperty]
+        [DisplayName("Random Password Character Set")]
+        [Description("The character set to use when generating the random passwords.")]
         public string RandomPasswordCharacterSet
         {
             get;
             set;
+        }
+
+        [JsonProperty]
+        [DisplayName("Display Verbose Information")]
+        [Description("(REQUIRES CLIENT RESTART). Whether or not the options for inspecting verbose information is available.")]
+        public bool VerboseInformation
+        {
+            get { return _VerboseInfo; }
+            set { _VerboseInfo = value; }
         }
 
         #endregion
