@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using CsharpListenerDemo;
+using System.Windows;
 
 namespace Salus
 {
@@ -48,6 +49,8 @@ namespace Salus
 
             RestServer a = new RestServer();
             a.Start();
+
+            CsharpListenerExample.Entry();
 
             AutoUpdater.Launch();
 

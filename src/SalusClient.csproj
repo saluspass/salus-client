@@ -195,6 +195,7 @@
     <Compile Include="ObjectModel\PasswordEntry.cs" />
     <Compile Include="ObjectModel\PasswordEntryManager.cs" />
     <Compile Include="ObjectModel\UnsecurePasswordEntry.cs" />
+    <Compile Include="Rest\Class1.cs" />
     <Compile Include="Rest\RestServer.cs" />
     <Compile Include="Rest\ApiController.cs" />
     <Compile Include="UI\Views\Updating\UpdateViewModel.cs" />
