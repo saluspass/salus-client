@@ -32,7 +32,7 @@ namespace Salus
             get { return _Instance; }
         }
 
-        internal Conf Conf
+        public Conf Conf
         {
             get { return _Conf; }
         }
