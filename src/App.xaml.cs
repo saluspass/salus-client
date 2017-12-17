@@ -50,8 +50,6 @@ namespace Salus
             RestServer a = new RestServer();
             a.Start();
 
-            //CsharpListenerExample.Entry();
-
             AutoUpdater.Launch();
 
             MainWindow mainWindow = new MainWindow();
